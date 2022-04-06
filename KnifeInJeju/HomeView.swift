@@ -34,6 +34,27 @@ struct GraphicCardView: View {
 }
 
 
+struct SelectButton: View {
+    var inputText: String
+    
+    var body: some View {
+        Button(action: {}) {
+            Text("\(inputText)")
+        }
+        .frame(width: 150, height: 150)
+        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
+        .padding()
+    }
+}
+
+
+struct RoleModelBar: View {
+    var body: some View {
+        Text("Hello")
+    }
+}
+
+
 struct HomeView: View {
     var colors = [Color.red.opacity(0.3), Color.yellow.opacity(0.3),
                   Color.green.opacity(0.3), Color.blue.opacity(0.3),
@@ -44,22 +65,13 @@ struct HomeView: View {
         VStack {
             Text("Qlog")
                 .font(.system(size: 50))
-                .frame(width:340, height: 100, alignment: .leading)
+                .frame(width:340, height: 50, alignment: .leading)
             Spacer()
             HStack {
-                Button(action: {}) {
-                    Text("질문하기")
-                }
-                .frame(width: 150, height: 150)
-                .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-                .padding()
-                Button(action: {}) {
-                    Text("대답하기")
-                }
-                .frame(width: 150, height: 150)
-                .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 2))
-                .padding()
+                SelectButton(inputText: "질문하기")
+                SelectButton(inputText: "대답하기")
             }
+            RoleModelBar()
             Spacer()
             GeometryReader { geometry in
                 ScrollView(.vertical, showsIndicators: false){
