@@ -38,17 +38,22 @@ struct LogView: View {
             Text("질문 보관함")
                 .font(.title2.weight(.bold))
             Spacer()
-            Label("북마크 모아보기", systemImage: onlyBookMark ? "bookmark.fill" : "bookmark")
-                .font(.footnote)
-                .padding(.vertical, 10)
-                .padding(.horizontal, 12)
-                .background(
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .strokeBorder(Color(.systemGray4))
-                )
-                .onTapGesture {
-                    onlyBookMark.toggle()
-                }
+            
+            HStack {
+                Image(systemName: onlyBookMark ? "bookmark.fill" : "bookmark")
+                    .foregroundColor(onlyBookMark ? .yellow : .black)
+                Text("북마크 모아보기")
+            }
+            .font(.footnote)
+            .padding(.vertical, 10)
+            .padding(.horizontal, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .strokeBorder(Color(.systemGray4))
+            )
+            .onTapGesture {
+                onlyBookMark.toggle()
+            }
 
         }
         .padding(.horizontal, 17)
@@ -56,7 +61,7 @@ struct LogView: View {
     }
     
     private var list: some View {
-        ForEach(0..<3) { index in
+        ForEach(0..<4) { index in
             CardView(title: "미술 입시 어떻게 하셨어요?",
                      text: "저는 미술을 꿈꾸고 있는 중학교 2학년이에요!. 지방에 거주하고 있는지라 미술관련 정보를 얻기 힘들고 대다수가 수도권에 있는 친구들에게 해당할 법한 이야기라 공감하기가 쉽지 않네요.. ",
                      isBookmarked: .constant(false),
@@ -76,7 +81,6 @@ struct LogView_Previews: PreviewProvider {
 }
 
 struct CardView: View {
-     
     var title: String
     var text: String
     @Binding var isBookmarked: Bool
