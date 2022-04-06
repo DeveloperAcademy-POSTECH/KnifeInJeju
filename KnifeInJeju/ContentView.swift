@@ -9,8 +9,45 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        TabView {
+            HomeView()
+                .tabItem {
+                    Label {
+                        Text("홈")
+                    } icon: {
+                        Image(systemName: "house.fill")
+                    }
+                }
+            
+            SearchView()
+                .tabItem {
+                    Label {
+                        Text("검색")
+                    } icon: {
+                        Image(systemName: "magnifyingglass")
+                    }
+                }
+            
+            LogView()
+                .tabItem {
+                    Label {
+                        Text("보관함")
+                    } icon: {
+                        Image(systemName: "list.bullet.rectangle.fill")
+                    }
+                }
+            
+            ProfileView()
+                .tabItem {
+                    Label {
+                        Text("프로필")
+                    } icon: {
+                        Image(systemName: "person.fill")
+                    }
+                }
+        }
+        .accentColor(.orange)
+        .font(.headline)
     }
 }
 
