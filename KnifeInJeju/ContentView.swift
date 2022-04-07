@@ -22,6 +22,7 @@ struct ContentView: View {
                 }
             
             SearchView()
+                .environmentObject(mainUser)
                 .tabItem {
                     Label {
                         Text("검색")

@@ -157,34 +157,39 @@ struct LogView: View {
     
     private var list: some View {
         ForEach($vm.questions) { $question in
+            
+            let questionBinding = Binding (
+                get: { question },
+                set: {
+                    question = $0
+                    vm.saveQuestions()
+                }
+            )
+            
             if !question.isRejected {
                 switch questionCase {
                 case .toMe:
-                    if question.to.id == mainUser.user.id {
+                    if question.to.name == mainUser.user.name {
                         if onlyBookMark {
                             if mainUser.checkBookmarked(question) {
-                                CardView(question: $question, to: question.to, from: question.from, questionCase: questionCase)
+                                CardView(question: questionBinding, questionCase: questionCase)
                                     .environmentObject(mainUser)
-                                    .environmentObject(vm)
                             }
                         } else {
-                            CardView(question: $question, to: question.to, from: question.from, questionCase: questionCase)
+                            CardView(question: questionBinding, questionCase: questionCase)
                                 .environmentObject(mainUser)
-                                .environmentObject(vm)
                         }
                     }
                 case .toOther:
-                    if question.from.id == mainUser.user.id {
+                    if question.from.name == mainUser.user.name {
                         if onlyBookMark {
                             if mainUser.checkBookmarked(question) {
-                                CardView(question: $question, to: question.to, from: question.from, questionCase: questionCase)
+                                CardView(question: questionBinding, questionCase: questionCase)
                                     .environmentObject(mainUser)
-                                    .environmentObject(vm)
                             }
                         } else {
-                            CardView(question: $question, to: question.to, from: question.from, questionCase: questionCase)
+                            CardView(question: questionBinding, questionCase: questionCase)
                                 .environmentObject(mainUser)
-                                .environmentObject(vm)
                         }
                     }
                 }
@@ -200,13 +205,10 @@ struct LogView_Previews: PreviewProvider {
 }
 
 struct CardView: View {
-    @State var showCardDetailView = false
+    @State private var showCardDetailView = false
     @Binding var question: Question
-    var to: User
-    var from: User
     var questionCase: QuestionCase
     @EnvironmentObject var mainUser: MainUserViewModel
-    @EnvironmentObject var vm: LogViewModel
     
     private var bookmarked: Bool {
         mainUser.checkBookmarked(question)
@@ -244,7 +246,7 @@ struct CardView: View {
     
     private var cardDetail: some View {
         VStack(alignment: .leading, spacing: 12) {
-            UserHeaderView(user: from, date: Date())
+            UserHeaderView(user: question.from, date: Date())
             header
             tags
             Divider()
@@ -252,20 +254,20 @@ struct CardView: View {
             Text(question.text)
                 .font(.footnote)
             Divider()
+                .padding(.top, 56)
                 .padding(.vertical, 4)
             if let answer = question.answer {
-                Text(answer.text)
-                    .font(.footnote)
-                    .padding()
-                    .background(
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .fill(.orange.opacity(0.05))
-                            
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .strokeBorder(.orange)
-                        }
-                    )
+                VStack(alignment: .leading) {
+                    UserHeaderView(user: question.to, date: question.date)
+                    Text(answer.text)
+                        .font(.footnote)
+                }
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(Color(.systemGray6))
+                )
+                
             }
             
             Spacer()
@@ -276,7 +278,6 @@ struct CardView: View {
     private var header: some View {
         HStack(spacing: 6) {
 //            Text("Q.")
-//                .fontWeight(.bold)
             Text(question.title)
                 .lineLimit(1)
             
@@ -305,12 +306,10 @@ struct CardView: View {
                         if hearted {
                             if mainUser.removeHearted(question: question) {
                                 question.heartCount -= 1
-                                vm.saveQuestions()
                             }
                         } else {
                             mainUser.addHearted(question: question)
                             question.heartCount += 1
-                            vm.saveQuestions()
                         }
                     }
                 }
@@ -353,18 +352,19 @@ struct CardView: View {
     
     private var footer: some View {
         HStack {
-            UserHeaderView(user: questionCase == .toMe ? from : to, date: question.date)
+            UserHeaderView(user: questionCase == .toMe ? question.from : question.to, date: question.date)
             
             Spacer()
             
             if questionCase == .toOther {
                 Button {
-                    showCardDetailView = true
+                    withAnimation(.spring()) {
+                        
+                    }
                 } label: {
-                    Text("내용보기")
-                        .foregroundColor(.white)
+                    Text("취소하기")
                 }
-                .buttonStyle(CardButtonStyle(color: .orange))
+                .buttonStyle(CardButtonStyle(color: Color(.systemGray6)))
             } else if question.answer != nil {
                 Button {
                     showCardDetailView = true
@@ -518,3 +518,14 @@ struct CardButtonStyle: ButtonStyle {
           userName: "Yaehoon Kim",
           userPictureName: "")
 */
+
+
+//Text("더미 데이터 초기화")
+//    .font(.footnote)
+//    .foregroundColor(.red)
+//    .frame(maxWidth: .infinity, alignment: .trailing)
+//    .onTapGesture {
+//        Storage.remove("userQuestions.json", from: .documents)
+//        vm.getQuestions()
+//    }
+

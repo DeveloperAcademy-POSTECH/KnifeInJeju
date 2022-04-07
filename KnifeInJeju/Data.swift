@@ -38,7 +38,6 @@ struct User: Identifiable, Codable, Hashable {
 
 extension Question {
     static let dummyData = [
-        
         Question(title: "미술 입시 어떻게 하셨어요?",
                  text: "저는 미술을 꿈꾸고 있는 중학교 2학년이에요!. 지방에 거주하고 있는지라 미술관련 정보를 얻기 힘들고 대다수가 수도권에 있는 친구들에게 해당할 법한 이야기라 공감하기가 쉽지 않네요..",
                  from: User.dummyData[1],
