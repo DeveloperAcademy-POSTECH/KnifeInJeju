@@ -7,43 +7,44 @@
 
 import SwiftUI
 
-struct GraphicCardView: View {
-    let num: Int
-    let color: Color
-    let maxY = UIScreen.main.bounds.maxY
-    
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(self.color)
-                    .shadow(color: self.color.opacity(1), radius: 10)
-                    .background(Color.white)
-                    .frame(width: 300, height: 300)
-                    .padding()
-                Text("\(self.num)")
-                    .font(.system(size: 35))
-                    .bold()
-            }.rotation3DEffect(
-                Angle(
-                    degrees: Double((geometry.frame(in: .global).maxY - self.maxY) + self.maxY/2) / 7),
-                axis: (x: -1.0, y: 0.0, z: 0.0)
-            )
-        }.padding()
-    }
-}
-
+//struct GraphicCardView: View {
+//    let num: Int
+//    let color: Color
+//    let maxY = UIScreen.main.bounds.maxY
+//
+//    var body: some View {
+//        GeometryReader { geometry in
+//            ZStack {
+//                RoundedRectangle(cornerRadius: 10)
+//                    .fill(self.color)
+//                    .shadow(color: self.color.opacity(1), radius: 10)
+//                    .background(Color.white)
+//                    .frame(height: 300)
+//                    .padding(.horizontal)
+//                Text("\(self.num)")
+//                    .font(.system(size: 35))
+//                    .bold()
+//            }.rotation3DEffect( // single card rotation
+//                Angle(
+//                    degrees: Double((geometry.frame(in: .global).maxY - self.maxY) + self.maxY/2) / 7),
+//                axis: (x: -1.0, y: 0.0, z: 0.0),
+//                anchor: .center
+//            )
+//        }.padding()
+//    }
+//}
 
 struct SelectButton: View {
     var inputText: String
     
     var body: some View {
         Button(action: {}) {
-            Text("\(inputText)")
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray)
+                .foregroundColor(.white)
+                .overlay(Text("\(inputText)"))
         }
-        .frame(width: 150, height: 150)
-        .background(RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 2))
+        .frame(width: 147, height: 152)
         .padding(10)
     }
 }
@@ -61,13 +62,15 @@ struct NewQlogView: View {
     }
 }
 
+
 struct RoleModelBar: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .strokeBorder(Color(0x0C4767), lineWidth: 1)
+                .background(RoundedRectangle(cornerRadius: 10)
+                    .fill(Color(0x0C4767, alpha: 0.1)))
                 .frame(width: 235, height: 32)
-                .background(Color(0x0C4767, alpha: 0.1))
             
             HStack {
                 Text("My Role Model")
@@ -84,7 +87,6 @@ struct RoleModelBar: View {
         }
     }
 }
-
 
 
 struct HomeView: View {
@@ -105,18 +107,23 @@ struct HomeView: View {
                 NewQlogView()
                 RoleModelBar()
             }
-            Spacer()
-            GeometryReader { geometry in
-                ScrollView(.vertical, showsIndicators: false){
-                    VStack(spacing: geometry.size.width/1.3) { // Control Overlap
-                        
-                        ForEach(0..<self.colors.count, id: \.self) { index in
-                            ZStack {
-                                GraphicCardView(num: index+1, color: self.colors[index])
-                            }
-                        }
-                    }.padding()//.padding(.vertical, geometry.frame(in: .global).maxY/2)
-                }
+            Spacer(minLength: 13)
+//            GeometryReader { geometry in
+//                ScrollView(.vertical, showsIndicators: false){
+//                    VStack(spacing: geometry.size.width/1.3) { // Control Overlap
+//                        ForEach(0..<self.colors.count, id: \.self) { index in
+//                            ZStack {
+//                                GraphicCardView(num: index+1, color: self.colors[index])
+//                            }
+//                        }
+//                    }.padding()//.padding(.vertical, geometry.frame(in: .global).maxY/2)
+//                }
+//            }
+            
+            ZStack {
+                Rectangle()
+                    .fill(Color(0xF2F2F7))
+                // CardView
             }
         }
     }
