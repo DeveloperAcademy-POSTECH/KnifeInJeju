@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var mainUser = MainUserViewModel()
+    
     var body: some View {
         TabView {
             HomeView()
@@ -29,6 +31,7 @@ struct ContentView: View {
                 }
             
             LogView()
+                .environmentObject(mainUser)
                 .tabItem {
                     Label {
                         Text("보관함")
@@ -48,6 +51,12 @@ struct ContentView: View {
         }
         .accentColor(.orange)
         .font(.headline)
+        .onAppear {
+            if #available(iOS 15.0, *) {
+                let appearance = UITabBarAppearance()
+                UITabBar.appearance().scrollEdgeAppearance = appearance
+            }
+        }
     }
 }
 
