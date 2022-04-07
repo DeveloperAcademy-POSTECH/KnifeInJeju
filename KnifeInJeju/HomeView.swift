@@ -16,7 +16,6 @@ struct HomeView: View {
                 Text("Qlog")
                     .font(.system(size: 34.0, weight: .bold))
                     .frame(width:320, height: 45, alignment: .leading)
-                Spacer()
                 HStack {
                     SelectButton(inputText: "질문하기")
                     SelectButton(inputText: "답변하기")
@@ -27,18 +26,14 @@ struct HomeView: View {
                 }
                 Spacer(minLength: 13)
                 VStack {
-                    ZStack {
                         Rectangle()
                             .frame(height: 424)
                             .foregroundColor(Color(0xF2F2F7))
                         // CardView
                     }
-                    Rectangle()
-                        .frame(height: 84)
-                        .foregroundColor(.white)
-                }
             }
-            //.navigationTitle("Qlog")
+            .navigationTitle(Text("홈"))
+            .navigationBarHidden(true)
         }
         
     }
@@ -80,6 +75,7 @@ struct HomeView: View {
                 .foregroundColor(.black)
         }
     }
+    
 }
 
 
@@ -109,13 +105,6 @@ struct SelectButton: View {
     }
 }
 
-
-// 테스트용
-struct RoleModelView: View {
-    var body: some View {
-        Text("RoleModel")
-    }
-}
 
 // Color Extension for hex Code
 extension Color {
