@@ -7,64 +7,53 @@
 
 import SwiftUI
 
-//struct GraphicCardView: View {
-//    let num: Int
-//    let color: Color
-//    let maxY = UIScreen.main.bounds.maxY
-//
-//    var body: some View {
-//        GeometryReader { geometry in
-//            ZStack {
-//                RoundedRectangle(cornerRadius: 10)
-//                    .fill(self.color)
-//                    .shadow(color: self.color.opacity(1), radius: 10)
-//                    .background(Color.white)
-//                    .frame(height: 300)
-//                    .padding(.horizontal)
-//                Text("\(self.num)")
-//                    .font(.system(size: 35))
-//                    .bold()
-//            }.rotation3DEffect( // single card rotation
-//                Angle(
-//                    degrees: Double((geometry.frame(in: .global).maxY - self.maxY) + self.maxY/2) / 7),
-//                axis: (x: -1.0, y: 0.0, z: 0.0),
-//                anchor: .center
-//            )
-//        }.padding()
-//    }
-//}
-
-struct SelectButton: View {
-    var inputText: String
-    
-    var body: some View {
-        Button(action: {}) {
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(.gray)
-                .foregroundColor(.white)
-                .overlay(Text("\(inputText)"))
-        }
-        .frame(width: 147, height: 152)
-        .padding(10)
-    }
-}
-
-
-struct NewQlogView: View {
+struct HomeView: View {
     @State var countQlog: Int = 0
     
     var body: some View {
+        NavigationView{
+            VStack {
+                Text("Qlog")
+                    .font(.system(size: 34.0, weight: .bold))
+                    .frame(width:320, height: 45, alignment: .leading)
+                Spacer()
+                HStack {
+                    SelectButton(inputText: "질문하기")
+                    SelectButton(inputText: "답변하기")
+                }
+                HStack {
+                    newQlog
+                    roleModelBar
+                }
+                Spacer(minLength: 13)
+                VStack {
+                    ZStack {
+                        Rectangle()
+                            .frame(height: 424)
+                            .foregroundColor(Color(0xF2F2F7))
+                        // CardView
+                    }
+                    Rectangle()
+                        .frame(height: 84)
+                        .foregroundColor(.white)
+                }
+            }
+            //.navigationTitle("Qlog")
+        }
+        
+    }
+    
+    // new Qlog View
+    private var newQlog: some View {
         Text("\(countQlog) new Qlog")
             .fontWeight(.bold)
             .foregroundColor(Color.gray)
             .multilineTextAlignment(.leading)
             .frame(width: 100.0, height: 30.0)
     }
-}
-
-
-struct RoleModelBar: View {
-    var body: some View {
+    
+    // My Role Model Bar
+    private var roleModelBar: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .strokeBorder(Color(0x0C4767), lineWidth: 1)
@@ -77,66 +66,56 @@ struct RoleModelBar: View {
                     .font(.system(size: 13, weight: .bold))
                     .multilineTextAlignment(.leading)
                     .padding(.trailing, 70.0)
-                Button(action: {}) {
-                    Image(systemName: "chevron.down")
-                        .padding(.leading)
-                        .font(.system(size: 13.0, weight: .bold))
-                        .foregroundColor(.black)
-                }
+                roleModelNavigation
             }
         }
     }
-}
-
-
-struct HomeView: View {
-    var colors = [Color.white.opacity(0.3), Color.red.opacity(0.3),                              Color.yellow.opacity(0.3), Color.green.opacity(0.3),                           Color.blue.opacity(0.3), Color.purple.opacity(0.3),                            Color.white.opacity(0.3)]
     
-    var body: some View {
-
-        VStack {
-            Text("Qlog")
-                .font(.system(size: 34.0, weight: .bold))
-                .frame(width:320, height: 45, alignment: .leading)
-            Spacer()
-            HStack {
-                SelectButton(inputText: "질문하기")
-                SelectButton(inputText: "답변하기")
-            }
-            HStack {
-                NewQlogView()
-                RoleModelBar()
-            }
-            Spacer(minLength: 13)
-//            GeometryReader { geometry in
-//                ScrollView(.vertical, showsIndicators: false){
-//                    VStack(spacing: geometry.size.width/1.3) { // Control Overlap
-//                        ForEach(0..<self.colors.count, id: \.self) { index in
-//                            ZStack {
-//                                GraphicCardView(num: index+1, color: self.colors[index])
-//                            }
-//                        }
-//                    }.padding()//.padding(.vertical, geometry.frame(in: .global).maxY/2)
-//                }
-//            }
-            
-            ZStack {
-                Rectangle()
-                    .fill(Color(0xF2F2F7))
-                // CardView
-            }
+    // 롤모델 관리 화면으로 Navigatoin Link
+    private var roleModelNavigation: some View {
+        NavigationLink(destination: RoleModelView()) {
+            Image(systemName: "chevron.down")
+                .padding(.leading)
+                .font(.system(size: 13.0, weight: .bold))
+                .foregroundColor(.black)
         }
     }
 }
-
 
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+        RoleModelView()
     }
 }
 
+// 질문하기, 답변하기 버튼
+struct SelectButton: View {
+    var inputText: String
+    // var openView: View
+    
+    var body: some View {
+        Button(action: {
+            // go to new view
+        }) {
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.gray)
+                .foregroundColor(.white)
+                .overlay(Text("\(inputText)"))
+        }
+        .frame(width: 147, height: 152)
+        .padding(10)
+    }
+}
+
+
+// 테스트용
+struct RoleModelView: View {
+    var body: some View {
+        Text("RoleModel")
+    }
+}
 
 // Color Extension for hex Code
 extension Color {
