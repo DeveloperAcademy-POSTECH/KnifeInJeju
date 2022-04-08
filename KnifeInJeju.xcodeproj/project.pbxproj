@@ -11,7 +11,7 @@
 		210F1EEE27FD685F008521D2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EED27FD685F008521D2 /* ProfileView.swift */; };
 		210F1EF027FD6866008521D2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EEF27FD6866008521D2 /* SearchView.swift */; };
 		210F1EF227FD6872008521D2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EF127FD6872008521D2 /* LogView.swift */; };
-		B9A4534F27FEFAB0008A7E58 /* RoleModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A4534E27FEFAB0008A7E58 /* RoleModelView.swift */; };
+		B9A4534F27FEFAB0008A7E58 /* RoleModelManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A4534E27FEFAB0008A7E58 /* RoleModelManageView.swift */; };
 		B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */; };
 		B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918E027FC326E006B79D8 /* ContentView.swift */; };
 		B9B918E327FC3270006B79D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B918E227FC3270006B79D8 /* Assets.xcassets */; };
@@ -43,7 +43,7 @@
 		210F1EED27FD685F008521D2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		210F1EEF27FD6866008521D2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		210F1EF127FD6872008521D2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
-		B9A4534E27FEFAB0008A7E58 /* RoleModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleModelView.swift; sourceTree = "<group>"; };
+		B9A4534E27FEFAB0008A7E58 /* RoleModelManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleModelManageView.swift; sourceTree = "<group>"; };
 		B9B918DB27FC326E006B79D8 /* KnifeInJeju.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KnifeInJeju.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnifeInJejuApp.swift; sourceTree = "<group>"; };
 		B9B918E027FC326E006B79D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 				B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */,
 				B9B918E027FC326E006B79D8 /* ContentView.swift */,
 				210F1EEB27FD6858008521D2 /* HomeView.swift */,
-				B9A4534E27FEFAB0008A7E58 /* RoleModelView.swift */,
+				B9A4534E27FEFAB0008A7E58 /* RoleModelManageView.swift */,
 				210F1EED27FD685F008521D2 /* ProfileView.swift */,
 				210F1EEF27FD6866008521D2 /* SearchView.swift */,
 				210F1EF127FD6872008521D2 /* LogView.swift */,
@@ -275,7 +275,7 @@
 				210F1EF027FD6866008521D2 /* SearchView.swift in Sources */,
 				210F1EF227FD6872008521D2 /* LogView.swift in Sources */,
 				210F1EEE27FD685F008521D2 /* ProfileView.swift in Sources */,
-				B9A4534F27FEFAB0008A7E58 /* RoleModelView.swift in Sources */,
+				B9A4534F27FEFAB0008A7E58 /* RoleModelManageView.swift in Sources */,
 				210F1EEC27FD6858008521D2 /* HomeView.swift in Sources */,
 				B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */,
 				B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */,

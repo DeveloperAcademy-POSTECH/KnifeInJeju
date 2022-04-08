@@ -8,7 +8,7 @@
 import SwiftUI
 
 // 롤모델 관리 View
-struct RoleModelView: View {
+struct RoleModelManageView: View {
     var body: some View {
         List(0 ..< 5) { item in
             roleModelContent
@@ -31,8 +31,8 @@ struct RoleModelView: View {
     }
 }
 
-struct RoleModelView_Previews: PreviewProvider {
+struct RoleModelManageView_Previews: PreviewProvider {
     static var previews: some View {
-        RoleModelView()
+        RoleModelManageView()
     }
 }
