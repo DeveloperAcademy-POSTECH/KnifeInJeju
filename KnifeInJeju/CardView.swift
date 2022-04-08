@@ -7,11 +7,23 @@
 
 import SwiftUI
 
+// 카드뷰 변경된 디자인에 따라 리팩토링 작업 중..
+
 struct CardView: View {
     @State private var showCardDetailView = false
+    
     @Binding var question: Question
-    var questionCase: QuestionCase
-    @EnvironmentObject var mainUser: MainUserViewModel
+    @ObservedObject var mainUser: MainUserViewModel
+    
+    private var questionCase: QuestionCase {
+        if mainUser.user.id == question.to.id {
+            return .toMe
+        } else if mainUser.user.id == question.from.id {
+            return .byMe
+        } else {
+            return .other
+        }
+    }
     
     private var bookmarked: Bool {
         mainUser.checkBookmarked(question)
@@ -24,9 +36,7 @@ struct CardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             
-            header
-            
-            tags
+            header()
             
             main
             
@@ -39,7 +49,7 @@ struct CardView: View {
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .fill(.background)
         )
-        .opacity(question.answer == nil ? 1 : 0.6)
+        .opacity(question.isAnswered && questionCase == .toMe ? 0.6 : 1)
         .onTapGesture {
             showCardDetailView = true
         }
@@ -50,20 +60,35 @@ struct CardView: View {
     
     private var cardDetail: some View {
         VStack(alignment: .leading, spacing: 12) {
+            
             UserHeaderView(user: question.from, date: Date())
-            header
+            
+            HStack {
+                header(font: .headline.bold())
+                
+                Spacer()
+                
+                bookmarkButton
+                
+                heartButton
+            }
+            
             tags
+            
             Divider()
                 .padding(.vertical, 4)
+            
             Text(question.text)
                 .font(.footnote)
+            
             Divider()
                 .padding(.top, 56)
                 .padding(.vertical, 4)
+            
             if let answer = question.answer {
                 VStack(alignment: .leading) {
                     UserHeaderView(user: question.to, date: question.date)
-                    Text(answer.text)
+                    Text(answer)
                         .font(.footnote)
                 }
                 .padding()
@@ -71,7 +96,6 @@ struct CardView: View {
                     RoundedRectangle(cornerRadius: 12, style: .continuous)
                         .fill(Color(.systemGray6))
                 )
-                
             }
             
             Spacer()
@@ -79,47 +103,15 @@ struct CardView: View {
         .padding(17)
     }
     
-    private var header: some View {
+    private func header(font: Font = .subheadline) -> some View {
         HStack(spacing: 6) {
             Text("Q.")
             Text(question.title)
                 .lineLimit(1)
             
             Spacer()
-            
-            HStack(spacing: 16) {
-                Image(systemName: bookmarked ? "bookmark.fill" : "bookmark")
-                    .foregroundColor(bookmarked ? .yellow : .primary)
-                    .onTapGesture {
-                        withAnimation(.spring()) {
-                            if bookmarked {
-                                mainUser.removeBookmark(question: question)
-                            } else {
-                                mainUser.addBookmark(question: question)
-                            }
-                        }
-                    }
-                
-                HStack {
-                    Image(systemName: hearted ? "heart.fill" : "heart")
-                    Text("\(question.heartCount)")
-                }
-                .foregroundColor(hearted ? .red : .primary)
-                .onTapGesture {
-                    withAnimation(.spring()){
-                        if hearted {
-                            if mainUser.removeHearted(question: question) {
-                                question.heartCount -= 1
-                            }
-                        } else {
-                            mainUser.addHearted(question: question)
-                            question.heartCount += 1
-                        }
-                    }
-                }
-            }
         }
-        .font(.headline.bold())
+        .font(font)
     }
     
     private var tags: some View {
@@ -133,25 +125,10 @@ struct CardView: View {
     }
     
     private var main: some View {
-        HStack(alignment: .top) {
-            Image("")
-                .resizable()
-                .aspectRatio(1, contentMode: .fill)
-                .frame(width: 64, height: 64)
-                .cornerRadius(12)
-                .background(
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 12).fill(Color(.systemGray5))
-                        Image(systemName: "photo")
-                            .foregroundColor(.gray)
-                    }
-                )
-            
-            Text(question.text)
-                .font(.footnote)
-                .frame(height: 64)
-                .foregroundColor(.gray)
-        }
+        Text(question.text)
+            .font(.caption)
+            .frame(height: 64)
+            .foregroundColor(.gray)
     }
     
     private var footer: some View {
@@ -160,44 +137,119 @@ struct CardView: View {
             
             Spacer()
             
-            if questionCase == .toOther {
-                Button {
-                    withAnimation(.spring()) {
-                        
-                    }
-                } label: {
-                    Text("취소하기")
+            if question.isAnswered {
+                if questionCase == .byMe {
+                    
+                    bookmarkButton
+                    
+                    heartButton
+                    
+                } else if questionCase == .toMe {
+                    
+                    answeredLabel
+                    
+                } else if questionCase == .other {
+                    
+                    bookmarkButton
+                    
+                    heartButton
+                    
                 }
-                .buttonStyle(CardButtonStyle(color: Color(.systemGray6)))
-            } else if question.answer != nil {
-                Button {
-                    showCardDetailView = true
-                } label: {
-                    Label("답변 완료", systemImage: "checkmark.circle.fill")
-                        .foregroundColor(.orange)
-                        .font(.headline.bold())
-                }
-                .buttonStyle(.plain)
             } else {
-                Button {
-                    withAnimation(.spring()) {
-                        question.isRejected = true
-                    }
-                } label: {
-                    Text("거절하기")
+                if questionCase == .byMe {
+                    
+                    cancelButton
+                    
+                } else if questionCase == .toMe {
+                    
+                    rejectButton
+                    
+                    answerButton
+                    
                 }
-                .buttonStyle(CardButtonStyle(color: Color(.systemGray6)))
-                
-                Button {
-                    print("답변")
-                } label: {
-                    Text("답변하기")
-                        .foregroundColor(.white)
-                }
-                .buttonStyle(CardButtonStyle(color: .orange))
             }
         }
     }
+    
+    private var answeredLabel: some View {
+        Button {
+            showCardDetailView = true
+        } label: {
+            Label("답변 완료", systemImage: "checkmark.circle.fill")
+                .foregroundColor(.orange)
+                .font(.headline.bold())
+        }
+        .buttonStyle(.plain)
+    }
+    
+    private var answerButton: some View {
+        Button {
+            print("답변")
+        } label: {
+            Text("답변하기")
+                .foregroundColor(.white)
+        }
+        .buttonStyle(CardButtonStyle(color: .orange))
+    }
+    
+    private var rejectButton: some View {
+        Button {
+            withAnimation(.spring()) {
+                question.isRejected = true
+            }
+        } label: {
+            Text("거절하기")
+        }
+        .buttonStyle(CardButtonStyle(color: Color(.systemGray6)))
+    }
+    
+    private var cancelButton: some View {
+        Button {
+            withAnimation(.spring()) {
+                print("질문 취소하는 코드")
+            }
+        } label: {
+            Text("취소하기")
+        }
+        .buttonStyle(CardButtonStyle(color: Color(.systemGray6)))
+    }
+    
+    private var bookmarkButton: some View {
+        Image(systemName: bookmarked ? "bookmark.fill" : "bookmark")
+            .padding(.horizontal, 2)
+            .foregroundColor(bookmarked ? .yellow : .primary)
+            .onTapGesture {
+                withAnimation(.spring()) {
+                    if bookmarked {
+                        mainUser.removeBookmark(question: question)
+                    } else {
+                        mainUser.addBookmark(question: question)
+                    }
+                }
+            }
+    }
+    
+    private var heartButton: some View {
+        HStack {
+            Image(systemName: hearted ? "heart.fill" : "heart")
+                .padding(.horizontal, 2)
+//            Text("\(question.heartCount)")
+        }
+        .foregroundColor(hearted ? .red : .primary)
+        .onTapGesture {
+            withAnimation(.spring()){
+                if hearted {
+                    if mainUser.removeHearted(question: question) {
+                        question.heartCount -= 1
+                    }
+                } else {
+                    mainUser.addHearted(question: question)
+                    question.heartCount += 1
+                }
+            }
+        }
+    }
+    
 }
 
 //struct CardView_Previews: PreviewProvider {

@@ -16,16 +16,14 @@ struct Question: Identifiable, Codable, Hashable {
     var from: User
     var to: User
     var date: Date
-    var answer: Answer?
+    var answer: String?
     var isRejected = false
     var heartCount = 0
     var tags: [String]
-}
-
-struct Answer: Identifiable, Codable, Hashable {
-    var id = UUID()
-    var text: String
-    var pictures: [Data] = []
+    
+    var isAnswered: Bool {
+        return answer != nil
+    }
 }
 
 struct User: Identifiable, Codable, Hashable {
@@ -59,7 +57,7 @@ extension Question {
                  from: User.dummyData[0],
                  to: User.dummyMainUserData,
                  date: Date(),
-                 answer: Answer(text: "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."),
+                 answer: "저도 곧 선배님과 같은 학교에 들어가게 될 고등학교 3학년이에요. 다가올 학교생활에 대한 기대가 커서 빨리 다양한 학교 정보에 대해 알고 싶어요.. 혹시 대학생활 하시면서 이건 꼭 알아야 한다라는 꿀팁같은 게 있으면 공유해주실 수 있으실까요??저도 곧 선배님과 같은 학교에 들어가게 될 고등학교 3학년이에요. 다가올 학교생활에 대한 기대가 커서 빨리 다양한 학교 정보에 대해 알고 싶어요.. 혹시 대학생활 하시면서 이건 꼭 알아야 한다라는 꿀팁같은 게 있으면 공유해주실 수 있으실까요??",
                  heartCount: 4,
                  tags: ["university"]),
         
@@ -76,8 +74,18 @@ extension Question {
                  from: User.dummyMainUserData,
                  to: User.dummyData[0],
                  date: Date(),
+                 answer: "잎진드기가 심각하게 번식한 잎사귀, 줄기, 가지 등은 즉시 제거하세요. 식물에서 떨어진 낙엽을 줍고 심각하게 손상된 잎사귀는 제거하세요. 근처에 있는 식물들에게 잎진드기가 옮는 걸 방지할 수 있습니다. 제거한 잎사귀와 낙엽은 비닐봉투에 넣은 후 밀봉해서 쓰레기통에 버리거나 불에 태우세요.",
                  heartCount: 4,
                  tags: ["plant"]),
+        
+        Question(title: "영어 공부를 위한 미드 좀 추천해주세요!",
+                 text: "유튜브에서 본 인터뷰로는 정말로 미드를 통해서 영어 회화 실력을 올린게 사실인가요??? 그렇다면 어떤 미드가 좋을 지 추천해주실 수 있으실까요..?",
+                 from: User.dummyMainUserData,
+                 to: User.dummyData[3],
+                 date: Date(),
+                 answer: "<프렌즈> <셜록> <그레이 아나토미>는 미드로 영어 공부하는 이들에게 유용하기로 꽤 유명하죠. 제가 영어 공부를 하면서 한창 불꽃을 태우며 몰입했던 작품은 바로 <위기의 주부들>이에요. 내용도 재미있고 일상에서 자주 사용하는 말이 많이 나와 도움이 됐죠.",
+                 heartCount: 6,
+                 tags: ["English","Drama"]),
         
         Question(title: "협업에 관하여 궁금한게 있어요",
                  text: "그동안 개인전만 열다 이번에 처음으로 단체전을 열게 된 인디 작가입니다. 나름대로 타인들에게 조언을 해줄 수 있을만큼 성장했다고 생각했는데 다양한 사람들과 의견공유를 하며 새로운 작품을 만들어나가는게 쉽지 않네요.. 전문적인 팀을 꾸려서 큰 프로젝트를 여러번 진행해오신 OO님에게 조언을 듣고 싶어 질문 남겨봐요",
@@ -109,6 +117,9 @@ extension User {
 }
 
 public class Storage {
+    
+    static let databaseAllQuestionURL = "Database_All_Questions.json"
+    static let mainUserURL = "MainUser.json"
     
     private init() { }
     

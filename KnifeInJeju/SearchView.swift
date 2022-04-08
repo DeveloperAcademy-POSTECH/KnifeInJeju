@@ -13,14 +13,14 @@ class SearchViewModel: ObservableObject {
     // 백엔드 존재 시 데이터베이스에 쿼리하는 코드가 들어감. but 없으므로 더미 데이터에 쿼리함.
     func query(string: String) {
         
-        if let data = Storage.retrive("userQuestions.json", from: .documents, as: [Question].self) {
+        if let data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
             let filteredData = data.filter { question in
                 let queryedText = question.text + question.title
-                return queryedText.contains(string)
+                return queryedText.contains(string) && question.isAnswered
             }
             queryQuestions = filteredData
         } else {
-            Storage.store(Question.dummyData, to: .documents, as: "userQuestions.json")
+            Storage.store(Question.dummyData, to: .documents, as: Storage.databaseAllQuestionURL)
             query(string: string)
         }
     }
@@ -32,7 +32,20 @@ class SearchViewModel: ObservableObject {
         case .name:
             queryQuestions = queryQuestions.sorted { $0.title.first ?? "0" < $1.title.first ?? "0" }
         }
-        
+    }
+    
+    func saveQuestions() {
+        // questions을 순회하며 원본 데이터베이스 파일에 있는 question과 같은 id를 찾으면 직접 변경해주고 다시 저장해줌
+        if var data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
+            queryQuestions.forEach { question in
+                if let index = data.firstIndex(of: question) {
+                    data[index] = question
+                }
+            }
+            Storage.store(data, to: .documents, as: Storage.databaseAllQuestionURL)
+        } else {
+            fatalError("Failed Get Database In saveQuestions()")
+        }
     }
 }
 
@@ -75,8 +88,17 @@ struct SearchView: View {
                             }
                             
                             ForEach($vm.queryQuestions) { $question in
-                                CardView(question: $question, questionCase: .toMe)
-                                    .environmentObject(mainUser)
+                                
+                                let questionBinding = Binding (
+                                    get: { question },
+                                    set: {
+                                        question = $0
+                                        vm.saveQuestions()
+                                        mainUser.saveMainUser()
+                                    }
+                                )
+                                
+                                CardView(question: questionBinding, mainUser: mainUser)
                             }
                         }
                         .padding(.horizontal, 17)

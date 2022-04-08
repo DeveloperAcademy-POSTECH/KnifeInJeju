@@ -9,7 +9,7 @@ import SwiftUI
 
 class MainUserViewModel: ObservableObject {
     @Published var user: User
-    
+     
     init() {
         // 백엔드가 있다면 받아온 유저 ID값으로 쿼리를 해서 User 데이터를 가져옴
         // but 백엔드가 없으니 임시로 User 생성해서 넣어줌
@@ -18,7 +18,7 @@ class MainUserViewModel: ObservableObject {
     }
     
     func getMainUser() {
-        guard let data = Storage.retrive("mainUser.json", from: .documents, as: User.self) else {
+        guard let data = Storage.retrive(Storage.mainUserURL, from: .documents, as: User.self) else {
             user = User.dummyMainUserData
             saveMainUser()
             return
@@ -27,7 +27,7 @@ class MainUserViewModel: ObservableObject {
     }
     
     func saveMainUser() {
-        Storage.store(user, to: .documents, as: "mainUser.json")
+        Storage.store(user, to: .documents, as: Storage.mainUserURL)
     }
     
     func checkBookmarked(_ question: Question) -> Bool {
@@ -75,29 +75,44 @@ class LogViewModel: ObservableObject {
     
     @Published var questions: [Question] = []
     
-    // 백엔드가 있다면 여기서 뷰 모델 생성 시 데이터베이스에 유저 ID 값으로 쿼리를 해서 Question 배열 가져옴
-    // but 백엔드가 없으니 로컬에 JSON 파일로 저장한 다음 다시 가져오거나, 로컬에 데이터가 없다면 임시로 더미 데이터 넣어줌.
-    init() {
-        getQuestions()
-    }
-    
-    func getQuestions() {
-        if let data = Storage.retrive("userQuestions.json", from: .documents, as: [Question].self) {
-            questions = data
+    func getQuestions(case questionCase: QuestionCase = .toMe, mainUser: User) {
+        // 백엔드 데이터베이스 역할을 할 data 변수 ( 로컬에 json 파일로 저장되어 있음)
+        if let data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
+            
+            // 쿼리역할을 해줄 내부 로직 ( LogView(질문 보관함)은 내(MainUser)가 받은, 보낸 질문 중 하나를 세그먼트 컨트롤으로
+            // 선택해서 해당 요소만 가져오길 원함.
+            switch questionCase {
+            case .toMe:
+                questions = data.filter { $0.to.id == mainUser.id }
+            case .byMe:
+                questions = data.filter { $0.from.id == mainUser.id }
+            case .other:
+                fatalError("Failed by Wrong QuestionCase in getQuestions(case:mainUser:)")
+            }
         } else {
-            questions = Question.dummyData
-            saveQuestions()
+            // 저장되어 있는 게 없으면 더미 데이터 저장하고 다시 getQuestion 불러옴, 재귀 무한루프 안빠지게 주의
+            Storage.store(Question.dummyData, to: .documents, as: Storage.databaseAllQuestionURL)
+            getQuestions(case: questionCase, mainUser: mainUser)
         }
     }
     
-    func saveQuestions() {
-        Storage.store(questions, to: .documents, as: "userQuestions.json")
+    func saveQuestions(case questionCase: QuestionCase = .toMe, mainUser: User) {
+        // questions을 순회하며 원본 데이터베이스 파일에 있는 question과 같은 id를 찾으면 직접 변경해주고 다시 저장해줌
+        if var data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
+            questions.forEach { question in
+                if let index = data.firstIndex(of: question) {
+                    data[index] = question
+                }
+            }
+            Storage.store(data, to: .documents, as: Storage.databaseAllQuestionURL)
+            getQuestions(case: questionCase, mainUser: mainUser)
+        } else {
+            fatalError("Failed Get Database In saveQuestions()")
+        }
     }
 }
 
 struct LogView: View {
-    // 원래는 ContentView에 만들어놓고 environmentObject로 하위 뷰에 주입해줘야 하는 디자인 패턴을 상정하고 코드를 짰으나 협업임으로
-    // 건드릴 수 없어 초기화를 여기서 함.
     @EnvironmentObject var mainUser: MainUserViewModel
     @StateObject var vm = LogViewModel()
     @State private var questionCase: QuestionCase = .toMe
@@ -124,6 +139,15 @@ struct LogView: View {
             .frame(maxWidth: .infinity)
             .background(Color(.systemGray6))
         }
+        .onChange(of: questionCase) { newValue in
+            withAnimation(.spring()) {
+                vm.getQuestions(case: newValue, mainUser: mainUser.user)
+            }
+        }
+        .onAppear{
+            mainUser.getMainUser()
+            vm.getQuestions(mainUser: mainUser.user)
+        }
     }
     
     private var titleHeader: some View {
@@ -149,10 +173,48 @@ struct LogView: View {
                     onlyBookMark.toggle()
                 }
             }
-
+            .sheet(isPresented: $onlyBookMark) {
+                bookmarkedList
+            }
         }
         .padding(.horizontal, 17)
         .padding(.top, 20)
+    }
+    
+    private var bookmarkedList: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                
+                Capsule()
+                    .fill(.gray.opacity(0.5))
+                    .frame(width: 60, height: 5)
+                    .padding(.top, 10)
+                
+                Text("북마크한 질문 \(mainUser.user.bookmarkedQuestions.count)개")
+                    .font(.footnote)
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 10)
+                
+                ForEach($mainUser.user.bookmarkedQuestions) { $question in
+                    
+                    let questionBinding = Binding {
+                        question
+                    } set: {
+                        question = $0
+                        mainUser.saveMainUser()
+                        vm.saveQuestions(case: questionCase, mainUser: mainUser.user)
+                    }
+                    
+                    CardView(question: questionBinding, mainUser: mainUser)
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal, 17)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(.systemGray6))
+
     }
     
     private var list: some View {
@@ -162,38 +224,12 @@ struct LogView: View {
                 get: { question },
                 set: {
                     question = $0
-                    vm.saveQuestions()
+                    mainUser.saveMainUser()
+                    vm.saveQuestions(case: questionCase, mainUser: mainUser.user)
                 }
             )
             
-            if !question.isRejected {
-                switch questionCase {
-                case .toMe:
-                    if question.to.name == mainUser.user.name {
-                        if onlyBookMark {
-                            if mainUser.checkBookmarked(question) {
-                                CardView(question: questionBinding, questionCase: questionCase)
-                                    .environmentObject(mainUser)
-                            }
-                        } else {
-                            CardView(question: questionBinding, questionCase: questionCase)
-                                .environmentObject(mainUser)
-                        }
-                    }
-                case .toOther:
-                    if question.from.name == mainUser.user.name {
-                        if onlyBookMark {
-                            if mainUser.checkBookmarked(question) {
-                                CardView(question: questionBinding, questionCase: questionCase)
-                                    .environmentObject(mainUser)
-                            }
-                        } else {
-                            CardView(question: questionBinding, questionCase: questionCase)
-                                .environmentObject(mainUser)
-                        }
-                    }
-                }
-            }
+            CardView(question: questionBinding, mainUser: mainUser)
         }
     }
 }
@@ -201,6 +237,7 @@ struct LogView: View {
 struct LogView_Previews: PreviewProvider {
     static var previews: some View {
         LogView()
+            .environmentObject(MainUserViewModel())
     }
 }
 
@@ -250,7 +287,8 @@ struct TagView: View {
 
 enum QuestionCase: String {
     case toMe
-    case toOther
+    case byMe
+    case other
     
     var id: String {
         self.rawValue
@@ -279,7 +317,7 @@ struct CustomPicker: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         withAnimation(.timingCurve(0.16, 1, 0.3, 1)) {
-                            questionCase = .toOther
+                            questionCase = .byMe
                         }
                     }
             }
@@ -315,18 +353,6 @@ struct CardButtonStyle: ButtonStyle {
             .animation(.spring(), value: configuration.isPressed)
     }
 }
-
-/*
- CardView(title: "미술 입시 어떻게 하셨어요?",
-          text: "저는 미술을 꿈꾸고 있는 중학교 2학년이에요!. 지방에 거주하고 있는지라 미술관련 정보를 얻기 힘들고 대다수가 수도권에 있는 친구들에게 해당할 법한 이야기라 공감하기가 쉽지 않네요.. ",
-          isBookmarked: .constant(false),
-          isHearted: .constant(false),
-          isAnswered: .constant(false),
-          tags: ["study", "game"],
-          userName: "Yaehoon Kim",
-          userPictureName: "")
-*/
-
 
 //Text("더미 데이터 초기화")
 //    .font(.footnote)
