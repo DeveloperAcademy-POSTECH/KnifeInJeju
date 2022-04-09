@@ -46,6 +46,7 @@ struct PostModifiyView: View {
             Button(action: {}) {
                 Text("수정하기")
                     .foregroundColor(.white)
+                    .fontWeight(.bold)
             }
             .frame(maxWidth: .infinity, maxHeight: 50)
             .background(.orange)

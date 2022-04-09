@@ -34,6 +34,7 @@ struct CertifyView: View {
             Button(action: {}) {
                 Text("제출하기")
                     .foregroundColor(.white)
+                    .fontWeight(.bold)
             }
             .frame(maxWidth: .infinity, maxHeight: 50)
             .background(.orange)
