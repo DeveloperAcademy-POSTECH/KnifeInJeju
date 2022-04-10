@@ -31,7 +31,7 @@ struct HomeView: View {
     }
     
     private var questionButton: some View {
-        NavigationLink(destination: LogView(), tag: 2, selection: $selection) {
+        NavigationLink(destination: RoleModelSelectView(), tag: 2, selection: $selection) {
             Button{
                 // action
                 print("질문하기")
@@ -76,6 +76,12 @@ struct HomeView: View {
                     .font(.system(size: 20, weight: .semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
+                
+                ScrollView {
+                    VStack(spacing: 20) {
+                        
+                    }
+                }
             }
         }.padding()
     }
@@ -89,7 +95,7 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 
-
+// 3가지 버튼 기본 스타일
 struct SelectButtonStyle: ButtonStyle {
     var image: String
     var text: String
