@@ -14,12 +14,11 @@ import SwiftUI
 
 struct RoleModelSelectView: View {
     @StateObject private var vm = RoleModelManageViewModel()
-    @State private var selectRoleModel = false
     
     var body: some View {
         headLineView
-        ScrollView {
-            ForEach(RoleModel.dummyData) { rolemodel in
+        ScrollView(showsIndicators: false) {
+            ForEach($vm.roleModels) { $rolemodel in
                 HStack {
                     HStack{
                         rolemodel.image
@@ -31,9 +30,10 @@ struct RoleModelSelectView: View {
                         
                     }
                     .frame(width: 300, height: 60, alignment: .leading)
-                    Toggle(isOn: $selectRoleModel) {
+                    Toggle(isOn: $rolemodel.checkToggle) {
                         Text("선택됨")
                     }
+                    .frame(width: 30, height: 40)
                     .foregroundColor(Color(0xFF9407))
                     .toggleStyle(CircleToggleStyle())
                 }

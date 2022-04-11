@@ -10,12 +10,15 @@ import SwiftUI
 class RoleModelManageViewModel: ObservableObject {
     @Published var roleModels: [RoleModel] = []
     
-    func delRoleModel(_ item: RoleModel) {
-        let index = roleModels.firstIndex(of: item)
-        roleModels.remove(at: index!)
+    init() {
+        // 백엔드에서 데이터를 가져옴...
+        roleModels = RoleModel.dummyData
     }
-    func deleteRoleModel(at offsets: IndexSet) {
-        roleModels.remove(atOffsets: offsets)
+    
+    func deleteRoleModel(_ item: RoleModel) {
+        if let index = roleModels.firstIndex(of: item) {
+            roleModels.remove(at: index)
+        }
     }
 }
 
@@ -26,9 +29,10 @@ struct RoleModel: Identifiable, Equatable, Hashable{
     }
     
     var id = UUID()
-    var image: Image
+    var image: Image = Image(systemName: "person.circle")
     var name: String
-    var bookmarkCount: Int
+    var bookmarkToggle: Bool = true
+    var bookmarkCount: Int = 0
     var checkToggle: Bool = false
 }
 
@@ -54,6 +58,27 @@ extension RoleModel {
                   bookmarkCount: 100),
         RoleModel(image: Image(systemName: "person.circle"),
                   name: "Judy",
+                  bookmarkCount: 30),
+        RoleModel(image: Image(systemName: "person.circle"),
+                  name: "role_model",
+                  bookmarkCount: 30),
+        RoleModel(image: Image(systemName: "person.circle"),
+                  name: "role__model",
+                  bookmarkCount: 30),
+        RoleModel(image: Image(systemName: "person.circle"),
+                  name: "role_model_",
+                  bookmarkCount: 30),
+        RoleModel(image: Image(systemName: "person.circle"),
+                  name: "_role_model",
+                  bookmarkCount: 30),
+        RoleModel(image: Image(systemName: "person.circle"),
+                  name: "_role_model",
+                  bookmarkCount: 30),
+        RoleModel(image: Image(systemName: "person.circle"),
+                  name: "_role_model",
+                  bookmarkCount: 30),
+        RoleModel(image: Image(systemName: "person.circle"),
+                  name: "_role_model",
                   bookmarkCount: 30)
     ]
 }
@@ -61,11 +86,11 @@ extension RoleModel {
 // 롤모델 관리 View
 struct RoleModelManageView: View {
     @StateObject private var vm = RoleModelManageViewModel()
-    @State private var bookmark = 0
     
     var body: some View {
-        ScrollView {
-            ForEach(RoleModel.dummyData) { rolemodel in
+        ScrollView(showsIndicators: false) {
+            ForEach($vm.roleModels) { $rolemodel in
+                // $ Binding이 없으면 model data를 뿌려주기만 함 (iOS 15부터 추가)
                 HStack {
                     HStack{
                         rolemodel.image
@@ -76,13 +101,13 @@ struct RoleModelManageView: View {
                             .font(.system(size: 16.0, weight: .regular))
                         
                     }
-                    .frame(width: 300, height: 60, alignment: .leading)
+                    .frame(width: 280, height: 60, alignment: .leading)
                     
                     HStack(spacing: 2) {
                         Image(systemName: "bookmark.fill")
                         Text("\(rolemodel.bookmarkCount)")
                     }
-                    .frame(width: 50, height: 40, alignment: .leading)
+                    .frame(width: 50, height: 30, alignment: .leading)
                     .foregroundColor(Color(0xFFBE0B))
                 }
                 

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State var selection: Int? = nil
+    @State var answerButtonToggle = false
     
     var body: some View {
         NavigationView{
@@ -46,7 +47,7 @@ struct HomeView: View {
     
     private var answerButton: some View {
         Button{
-            // action
+            answerButtonToggle = true
             print("답변하기")
         } label: {
             Text("Answer")
