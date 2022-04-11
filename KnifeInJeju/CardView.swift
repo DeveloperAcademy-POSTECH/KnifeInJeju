@@ -66,6 +66,7 @@ struct CardView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             
             UserHeaderView(user: question.from, date: question.date)
+                .padding(.bottom, 10)
             
             HStack {
                 header(font: .headline.bold())
@@ -300,6 +301,7 @@ struct UserHeaderView: View {
             VStack(alignment: .leading) {
                 Text(user.name)
                     .font(.footnote.bold())
+                
                 Text(date.string())
                     .font(.caption)
                     .foregroundColor(.gray)

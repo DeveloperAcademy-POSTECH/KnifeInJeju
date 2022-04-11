@@ -9,7 +9,8 @@ import SwiftUI
 
 class LogViewModel: ObservableObject {
     
-    @Published var questions: [Question] = []
+    @Published var answeredQuestions: [Question] = []
+    @Published var unansweredQuestions: [Question] = []
     @Published var questionCase: QuestionCase = .toMe
     @Published var onlyBookMark = false
     
@@ -21,9 +22,37 @@ class LogViewModel: ObservableObject {
             // 선택해서 해당 요소만 가져오길 원함.
             switch questionCase {
             case .toMe:
-                questions = data.filter { $0.to.id == user.id }
+                
+                let questions = data.filter{ $0.to.id == user.id }
+                var answered: [Question] = []
+                var unanswered: [Question] = []
+                
+                questions.forEach { question in
+                    if question.isAnswered {
+                        answered.append(question)
+                    } else {
+                        unanswered.append(question)
+                    }
+                }
+                answeredQuestions = answered
+                unansweredQuestions = unanswered
+                
             case .byMe:
-                questions = data.filter { $0.from.id == user.id }
+                
+                let questions = data.filter{ $0.from.id == user.id }
+                var answered: [Question] = []
+                var unanswered: [Question] = []
+                
+                questions.forEach { question in
+                    if question.isAnswered {
+                        answered.append(question)
+                    } else {
+                        unanswered.append(question)
+                    }
+                }
+                answeredQuestions = answered
+                unansweredQuestions = unanswered
+
             case .other:
                 fatalError("Failed by Wrong QuestionCase in getQuestions(case:loginUser:)")
             }
@@ -37,8 +66,9 @@ class LogViewModel: ObservableObject {
     func saveQuestions(user: User) {
         // questions을 순회하며 원본 데이터베이스 파일에 있는 question과 같은 id를 찾으면 직접 변경해주고 다시 저장해줌
         if var data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
-            questions.forEach { question in
-                print(question)
+            let allQuestions = answeredQuestions + unansweredQuestions
+            
+            allQuestions.forEach { question in
                 if let index = data.firstIndex(where: {$0.id == question.id }) {
                     data[index] = question
                     
@@ -47,6 +77,7 @@ class LogViewModel: ObservableObject {
                     }
                 }
             }
+            
             Storage.store(data, to: .documents, as: Storage.databaseAllQuestionURL)
             getQuestions(user: user)
         } else {
@@ -107,7 +138,7 @@ struct LogView: View {
             .padding(.horizontal, 12)
             .background(
                 RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .strokeBorder(Color(.systemGray4))
+                    .fill(.orange.opacity(0.1))
             )
             .onTapGesture {
                 withAnimation(.spring()) {
@@ -149,16 +180,32 @@ struct LogView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemGray6))
         .onAppear {
-            print("heloo")
             loginUserVM.getLoginUser()
         }
     }
     
     private var list: some View {
-        ForEach($vm.questions) { $question in
-            if !question.isRejected {            
-                CardView(question: $question, loginUserVM: loginUserVM) {
-                    vm.saveQuestions(user: loginUserVM.user)
+        Group {
+            ForEach($vm.unansweredQuestions) { $question in
+                if !question.isRejected {
+                    CardView(question: $question, loginUserVM: loginUserVM) {
+                        vm.saveQuestions(user: loginUserVM.user)
+                    }
+                }
+            }
+            
+            if !vm.answeredQuestions.isEmpty && !vm.unansweredQuestions.isEmpty {
+                Capsule()
+                    .fill(.background)
+                    .frame(maxWidth: .infinity).frame(height: 2)
+                    .padding(.vertical, 4)
+            }
+            
+            ForEach($vm.answeredQuestions) { $question in
+                if !question.isRejected {
+                    CardView(question: $question, loginUserVM: loginUserVM) {
+                        vm.saveQuestions(user: loginUserVM.user)
+                    }
                 }
             }
         }
@@ -216,9 +263,9 @@ struct CustomPicker: View {
     }
 }
 
-struct LogView_Previews: PreviewProvider {
-    static var previews: some View {
-        LogView()
-            .environmentObject(LoginUserViewModel())
-    }
-}
+//struct LogView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LogView()
+//            .environmentObject(LoginUserViewModel())
+//    }
+//}
