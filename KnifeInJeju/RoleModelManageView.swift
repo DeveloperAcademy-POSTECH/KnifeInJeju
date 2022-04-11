@@ -29,6 +29,7 @@ struct RoleModel: Identifiable, Equatable, Hashable{
     var image: Image
     var name: String
     var bookmarkCount: Int
+    var checkToggle: Bool = false
 }
 
 extension RoleModel {
@@ -72,11 +73,13 @@ struct RoleModelManageView: View {
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 40, height: 40)
                         Text(rolemodel.name)
-                            .padding()
+                            .font(.system(size: 16.0, weight: .regular))
+                        
                     }
-                    .frame(width: 250, height: 60, alignment: .leading)
+                    .frame(width: 300, height: 60, alignment: .leading)
+                    
                     HStack(spacing: 2) {
-                        Image(systemName: "bookmark")
+                        Image(systemName: "bookmark.fill")
                         Text("\(rolemodel.bookmarkCount)")
                     }
                     .frame(width: 50, height: 40, alignment: .leading)

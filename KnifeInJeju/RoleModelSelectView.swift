@@ -14,23 +14,29 @@ import SwiftUI
 
 struct RoleModelSelectView: View {
     @StateObject private var vm = RoleModelManageViewModel()
+    @State private var selectRoleModel = false
     
     var body: some View {
         headLineView
         ScrollView {
             ForEach(RoleModel.dummyData) { rolemodel in
-                let name = rolemodel.name
-                let image = rolemodel.image
-                HStack{
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 40, height: 40)
-                    Text(name)
-                        .padding()
+                HStack {
+                    HStack{
+                        rolemodel.image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 40, height: 40)
+                        Text(rolemodel.name)
+                            .font(.system(size: 16.0, weight: .regular))
+                        
+                    }
+                    .frame(width: 300, height: 60, alignment: .leading)
+                    Toggle(isOn: $selectRoleModel) {
+                        Text("선택됨")
+                    }
+                    .foregroundColor(Color(0xFF9407))
+                    .toggleStyle(CircleToggleStyle())
                 }
-                .frame(width: 250, height: 60, alignment: .leading)
-                
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -40,18 +46,57 @@ struct RoleModelSelectView: View {
                     .font(.headline)
             }
         }
+        questoinButton
     }
     
     private var headLineView: some View {
         Text("누구에게 질문하고 싶으신가요?")
-            .font(.headline)
+            .font(.system(size: 20.0, weight: .semibold))
             .frame(width: 356, height: 30, alignment: .leading)
             .padding()
+    }
+    
+    private var questoinButton: some View {
+        Button(action: {}) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 356, height: 40)
+                Text("질문하기")
+                    .font(.system(size: 17.0, weight: .bold))
+                    .foregroundColor(.white)
+            }
+        }
     }
 }
 
 struct RoleModelSelectView_Previews: PreviewProvider {
     static var previews: some View {
         RoleModelSelectView()
+    }
+}
+
+struct CircleToggleStyle: ToggleStyle {
+    @Environment(\.isEnabled) var isEnabled
+    
+    func makeBody(configuration: Configuration) -> some View {
+        Button(action: {
+            configuration.isOn.toggle()
+        }, label: {
+            HStack {
+                ZStack {
+                    Circle()
+                        .stroke(Color(0x979797))
+                        .frame(width: 29, height: 29)
+                    Image(systemName: configuration.isOn ? "record.circle.fill" : "")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 30, height: 30)
+                }
+                
+                
+            }
+        })
+        .buttonStyle(PlainButtonStyle())
+        .disabled(!isEnabled)
     }
 }
