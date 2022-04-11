@@ -8,20 +8,24 @@
 import SwiftUI
 
 class SearchViewModel: ObservableObject {
+    
     @Published var queryQuestions: [Question] = []
+    @Published var queryString = ""
+    @Published var sortCase: SortCase = .heart
     
     // 백엔드 존재 시 데이터베이스에 쿼리하는 코드가 들어감. but 없으므로 더미 데이터에 쿼리함.
-    func query(string: String) {
+    func getQueryQuestions(string: String, user: User) {
         
         if let data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
             let filteredData = data.filter { question in
                 let queryedText = question.text + question.title
-                return queryedText.contains(string) && question.isAnswered
+                return queryedText.contains(string) && question.isAnswered && question.to.id != user.id
             }
             queryQuestions = filteredData
+            sortQuestion(sortCase: sortCase)
         } else {
             Storage.store(Question.dummyData, to: .documents, as: Storage.databaseAllQuestionURL)
-            query(string: string)
+            getQueryQuestions(string: string, user: user)
         }
     }
     
@@ -34,15 +38,16 @@ class SearchViewModel: ObservableObject {
         }
     }
     
-    func saveQuestions() {
+    func saveQueryQuestions(string: String, user: User) {
         // questions을 순회하며 원본 데이터베이스 파일에 있는 question과 같은 id를 찾으면 직접 변경해주고 다시 저장해줌
         if var data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
             queryQuestions.forEach { question in
-                if let index = data.firstIndex(of: question) {
+                if let index = data.firstIndex(where: { $0.id == question.id }) {
                     data[index] = question
                 }
             }
             Storage.store(data, to: .documents, as: Storage.databaseAllQuestionURL)
+            getQueryQuestions(string: string, user: user)
         } else {
             fatalError("Failed Get Database In saveQuestions()")
         }
@@ -50,10 +55,8 @@ class SearchViewModel: ObservableObject {
 }
 
 struct SearchView: View {
-    @EnvironmentObject var mainUser: MainUserViewModel
+    @EnvironmentObject var loginUserVM: LoginUserViewModel
     @StateObject private var vm = SearchViewModel()
-    @State private var queryString = ""
-    @State private var sortCase: SortCase = .heart
     
     var body: some View {
         NavigationView {
@@ -84,21 +87,13 @@ struct SearchView: View {
                                 
                                 Spacer()
                                 
-                                CustomSortMenu(sortCase: $sortCase)
+                                CustomSortMenu(sortCase: $vm.sortCase)
                             }
                             
                             ForEach($vm.queryQuestions) { $question in
-                                
-                                let questionBinding = Binding (
-                                    get: { question },
-                                    set: {
-                                        question = $0
-                                        vm.saveQuestions()
-                                        mainUser.saveMainUser()
-                                    }
-                                )
-                                
-                                CardView(question: questionBinding, mainUser: mainUser)
+                                CardView(question: $question, loginUserVM: loginUserVM) {
+                                    vm.saveQueryQuestions(string: vm.queryString, user: loginUserVM.user)
+                                }
                             }
                         }
                         .padding(.horizontal, 17)
@@ -109,13 +104,13 @@ struct SearchView: View {
                 }
             }.navigationBarTitle("검색", displayMode: .inline)
         }
-        .searchable(text: $queryString, placement: .navigationBarDrawer(displayMode: .always))
-        .onChange(of: queryString) { newValue in
+        .searchable(text: $vm.queryString, placement: .navigationBarDrawer(displayMode: .always))
+        .onChange(of: vm.queryString) { newValue in
             withAnimation(.spring()) {
-                vm.query(string: newValue)
+                vm.getQueryQuestions(string: newValue, user: loginUserVM.user)
             }
         }
-        .onChange(of: sortCase) { newValue in
+        .onChange(of: vm.sortCase) { newValue in
             withAnimation(.spring()) {
                 vm.sortQuestion(sortCase: newValue)
             }
@@ -127,7 +122,6 @@ enum SortCase: String, CaseIterable, Identifiable {
     
     case heart
     case name
-    
     
     var id: String {
         return self.rawValue

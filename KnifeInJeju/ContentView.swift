@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var mainUser = MainUserViewModel()
+    @StateObject var loginUserVM = LoginUserViewModel()
     
     var body: some View {
         TabView {
@@ -22,7 +22,7 @@ struct ContentView: View {
                 }
             
             SearchView()
-                .environmentObject(mainUser)
+                .environmentObject(loginUserVM)
                 .tabItem {
                     Label {
                         Text("검색")
@@ -32,7 +32,7 @@ struct ContentView: View {
                 }
             
             LogView()
-                .environmentObject(mainUser)
+                .environmentObject(loginUserVM)
                 .tabItem {
                     Label {
                         Text("보관함")

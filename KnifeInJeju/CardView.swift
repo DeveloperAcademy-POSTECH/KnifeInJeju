@@ -7,18 +7,17 @@
 
 import SwiftUI
 
-// 카드뷰 변경된 디자인에 따라 리팩토링 작업 중..
-
 struct CardView: View {
     @State private var showCardDetailView = false
     
     @Binding var question: Question
-    @ObservedObject var mainUser: MainUserViewModel
+    @ObservedObject var loginUserVM: LoginUserViewModel
+    let saveQuestion: () -> Void
     
     private var questionCase: QuestionCase {
-        if mainUser.user.id == question.to.id {
+        if loginUserVM.user.id == question.to.id {
             return .toMe
-        } else if mainUser.user.id == question.from.id {
+        } else if loginUserVM.user.id == question.from.id {
             return .byMe
         } else {
             return .other
@@ -26,11 +25,11 @@ struct CardView: View {
     }
     
     private var bookmarked: Bool {
-        mainUser.checkBookmarked(question)
+        loginUserVM.checkBookmarked(question)
     }
     
     private var hearted: Bool {
-        mainUser.checkHearted(question)
+        loginUserVM.checkHearted(question)
     }
     
     var body: some View {
@@ -61,22 +60,41 @@ struct CardView: View {
     private var cardDetail: some View {
         VStack(alignment: .leading, spacing: 12) {
             
-            UserHeaderView(user: question.from, date: Date())
+            Capsule()
+                .fill(.gray.opacity(0.5))
+                .frame(width: 60, height: 5)
+                .frame(maxWidth: .infinity, alignment: .center)
+            
+            UserHeaderView(user: question.from, date: question.date)
             
             HStack {
                 header(font: .headline.bold())
                 
                 Spacer()
                 
-                bookmarkButton
+                if questionCase != .toMe {
+                    bookmarkButton
+                    heartButton
+                }
                 
-                heartButton
             }
             
             tags
             
             Divider()
                 .padding(.vertical, 4)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(question.pictures, id: \.self) { image in
+                        Image(uiImage: image)
+                            .resizable()
+                            .frame(width: 260, height: 260)
+                            .aspectRatio(contentMode: .fill)
+                            .cornerRadius(8)
+                    }
+                }
+            }
             
             Text(question.text)
                 .font(.footnote)
@@ -138,6 +156,7 @@ struct CardView: View {
             Spacer()
             
             if question.isAnswered {
+                
                 if questionCase == .byMe {
                     
                     bookmarkButton
@@ -156,6 +175,7 @@ struct CardView: View {
                     
                 }
             } else {
+                
                 if questionCase == .byMe {
                     
                     cancelButton
@@ -196,6 +216,7 @@ struct CardView: View {
         Button {
             withAnimation(.spring()) {
                 question.isRejected = true
+                saveQuestion()
             }
         } label: {
             Text("거절하기")
@@ -206,7 +227,8 @@ struct CardView: View {
     private var cancelButton: some View {
         Button {
             withAnimation(.spring()) {
-                print("질문 취소하는 코드")
+                question.isRejected = true
+                saveQuestion()
             }
         } label: {
             Text("취소하기")
@@ -221,9 +243,9 @@ struct CardView: View {
             .onTapGesture {
                 withAnimation(.spring()) {
                     if bookmarked {
-                        mainUser.removeBookmark(question: question)
+                        loginUserVM.removeBookmark(question: question)
                     } else {
-                        mainUser.addBookmark(question: question)
+                        loginUserVM.addBookmark(question: question)
                     }
                 }
             }
@@ -233,18 +255,20 @@ struct CardView: View {
         HStack {
             Image(systemName: hearted ? "heart.fill" : "heart")
                 .padding(.horizontal, 2)
-//            Text("\(question.heartCount)")
+            Text("\(question.heartCount)")
         }
         .foregroundColor(hearted ? .red : .primary)
         .onTapGesture {
             withAnimation(.spring()){
                 if hearted {
-                    if mainUser.removeHearted(question: question) {
+                    if loginUserVM.removeHearted(question: question) {
                         question.heartCount -= 1
+                        saveQuestion()
                     }
                 } else {
-                    mainUser.addHearted(question: question)
+                    loginUserVM.addHearted(question: question)
                     question.heartCount += 1
+                    saveQuestion()
                 }
             }
         }
