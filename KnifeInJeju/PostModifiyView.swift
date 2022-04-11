@@ -11,12 +11,16 @@ struct PostModifiyView: View {
     @State var title: String = ""
     @State var content: String = ""
     
+    @State var showImagePicker: Bool = false
+    @State var image: Image? = nil
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("제목을 작성해주세요.")
                 .font(.subheadline)
             ZStack {
-                RoundRectangle()
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.white)
                     .frame(height: 42)
                 TextField("제목을 입력해주세요.", text: $title)
                     .padding(10)
@@ -26,7 +30,8 @@ struct PostModifiyView: View {
                 .font(.subheadline)
                 .padding(.top, 40)
             ZStack(alignment: .topLeading) {
-                RoundRectangle()
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.white)
                     .frame(height: 125)
                 TextField("내용을 입력해주세요.", text: $content)
                     .padding(10)
@@ -38,8 +43,33 @@ struct PostModifiyView: View {
             Text("프로필에 보일 사진을 첨부해주세요.")
                 .font(.caption)
                 .foregroundColor(.secondary)
-            RoundRectangle()
-                .frame(height: 160)
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(.white)
+                    .frame(height: 160)
+                Button(action: {
+                    self.showImagePicker.toggle()
+                }) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(.systemGray6))
+                            .frame(width: 120, height: 120)
+                        .padding(20)
+                        
+                        Image(systemName: "paperclip")
+                            .resizable()
+                            .foregroundColor(.orange)
+                            .frame(width: 30, height: 30)
+                        
+                        image?.resizable().frame(width: 120, height: 120).cornerRadius(20.0)
+                    }
+                    .sheet(isPresented: $showImagePicker) {
+                        ImagePicker(sourceType: .photoLibrary) { image in
+                            self.image = Image(uiImage: image)
+                        }
+                    }
+                }
+            }
             
             Spacer()
             
@@ -54,6 +84,8 @@ struct PostModifiyView: View {
         }
         .padding()
         .background(Color(.systemGray6))
+        .navigationTitle("포스트 수정")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
