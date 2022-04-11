@@ -160,6 +160,71 @@ extension User {
     ]
 }
 
+class LoginUserViewModel: ObservableObject {
+    @Published var user: User
+     
+    init() {
+        // 백엔드가 있다면 받아온 유저 ID값으로 쿼리를 해서 User 데이터를 가져옴
+        // but 백엔드가 없으니 임시로 User 생성해서 넣어줌
+        user = User.dummyLoginUserData
+        getLoginUser()
+    }
+    
+    func getLoginUser() {
+        guard let data = Storage.retrive(Storage.loginUserURL, from: .documents, as: User.self) else {
+            user = User.dummyLoginUserData
+            saveLoginUser()
+            return
+        }
+        
+        user = data
+    }
+    
+    func saveLoginUser() {
+        Storage.store(user, to: .documents, as: Storage.loginUserURL)
+    }
+    
+    func checkBookmarked(_ question: Question) -> Bool {
+        let query = user.bookmarkedQuestions.filter { $0.id == question.id }
+        return !query.isEmpty
+    }
+    
+    func checkHearted(_ question: Question) -> Bool {
+        let query = user.heartedQuestions.filter { $0.id == question.id }
+        return !query.isEmpty
+    }
+    
+    func addBookmark(question: Question) {
+        user.bookmarkedQuestions.append(question)
+        saveLoginUser()
+    }
+    
+    func addHearted(question: Question) {
+        user.heartedQuestions.append(question)
+        saveLoginUser()
+    }
+    
+    @discardableResult
+    func removeBookmark(question: Question) -> Bool {
+        if let index = user.bookmarkedQuestions.firstIndex(where: { $0.id == question.id }) {
+            user.bookmarkedQuestions.remove(at: index)
+            saveLoginUser()
+            return true
+        }
+        return false
+    }
+    
+    @discardableResult
+    func removeHearted(question: Question) -> Bool {
+        if let index = user.heartedQuestions.firstIndex(where: {$0.id == question.id}) {
+            user.heartedQuestions.remove(at: index)
+            saveLoginUser()
+            return true
+        }
+        return false
+    }
+}
+
 public class Storage {
     
     static let databaseAllQuestionURL = "Database_All_Questions.json"

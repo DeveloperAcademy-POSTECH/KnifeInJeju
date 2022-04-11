@@ -7,71 +7,6 @@
 
 import SwiftUI
 
-class LoginUserViewModel: ObservableObject {
-    @Published var user: User
-     
-    init() {
-        // 백엔드가 있다면 받아온 유저 ID값으로 쿼리를 해서 User 데이터를 가져옴
-        // but 백엔드가 없으니 임시로 User 생성해서 넣어줌
-        user = User.dummyLoginUserData
-        getLoginUser()
-    }
-    
-    func getLoginUser() {
-        guard let data = Storage.retrive(Storage.loginUserURL, from: .documents, as: User.self) else {
-            user = User.dummyLoginUserData
-            saveLoginUser()
-            return
-        }
-        
-        user = data
-    }
-    
-    func saveLoginUser() {
-        Storage.store(user, to: .documents, as: Storage.loginUserURL)
-    }
-    
-    func checkBookmarked(_ question: Question) -> Bool {
-        let query = user.bookmarkedQuestions.filter { $0.id == question.id }
-        return !query.isEmpty
-    }
-    
-    func checkHearted(_ question: Question) -> Bool {
-        let query = user.heartedQuestions.filter { $0.id == question.id }
-        return !query.isEmpty
-    }
-    
-    func addBookmark(question: Question) {
-        user.bookmarkedQuestions.append(question)
-        saveLoginUser()
-    }
-    
-    func addHearted(question: Question) {
-        user.heartedQuestions.append(question)
-        saveLoginUser()
-    }
-    
-    @discardableResult
-    func removeBookmark(question: Question) -> Bool {
-        if let index = user.bookmarkedQuestions.firstIndex(where: { $0.id == question.id }) {
-            user.bookmarkedQuestions.remove(at: index)
-            saveLoginUser()
-            return true
-        }
-        return false
-    }
-    
-    @discardableResult
-    func removeHearted(question: Question) -> Bool {
-        if let index = user.heartedQuestions.firstIndex(where: {$0.id == question.id}) {
-            user.heartedQuestions.remove(at: index)
-            saveLoginUser()
-            return true
-        }
-        return false
-    }
-}
-
 class LogViewModel: ObservableObject {
     
     @Published var questions: [Question] = []
@@ -230,70 +165,6 @@ struct LogView: View {
     }
 }
 
-struct LogView_Previews: PreviewProvider {
-    static var previews: some View {
-        LogView()
-            .environmentObject(LoginUserViewModel())
-    }
-}
-
-struct UserHeaderView: View {
-    
-    var user: User
-    var date: Date
-    
-    var body: some View {
-        HStack {
-            Image(uiImage: user.profilePicture )
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 28, height: 28)
-                .clipShape(Circle())
-                .background(
-                    ZStack {
-                        Circle().fill(Color(.systemGray5))
-                        Image(systemName: "photo")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                )
-            
-            VStack(alignment: .leading) {
-                Text(user.name)
-                    .font(.footnote.bold())
-                Text(date.string())
-                    .font(.caption)
-                    .foregroundColor(.gray)
-            }
-        }
-    }
-}
-
-extension Date {
-    func string() -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter.string(from: self)
-    }
-}
-
-
-struct TagView: View {
-    
-    var text: String
-    
-    var body: some View {
-        Text(text)
-            .font(.caption.bold())
-            .padding(.vertical, 3)
-            .padding(.horizontal, 8)
-            .background(
-                Capsule()
-                    .fill(Color(.systemGray5))
-            )
-    }
-}
-
 enum QuestionCase: String {
     case toMe
     case byMe
@@ -345,30 +216,9 @@ struct CustomPicker: View {
     }
 }
 
-struct CardButtonStyle: ButtonStyle {
-    
-    var color: Color
-    
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.caption.weight(.semibold))
-            .padding(.vertical, 12)
-            .padding(.horizontal, 16)
-            .background(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(color)
-            )
-            .scaleEffect(configuration.isPressed ? 0.92: 1)
-            .animation(.spring(), value: configuration.isPressed)
+struct LogView_Previews: PreviewProvider {
+    static var previews: some View {
+        LogView()
+            .environmentObject(LoginUserViewModel())
     }
 }
-
-//Text("더미 데이터 초기화")
-//    .font(.footnote)
-//    .foregroundColor(.red)
-//    .frame(maxWidth: .infinity, alignment: .trailing)
-//    .onTapGesture {
-//        Storage.remove("userQuestions.json", from: .documents)
-//        vm.getQuestions()
-//    }
-

@@ -276,6 +276,82 @@ struct CardView: View {
     
 }
 
+struct UserHeaderView: View {
+    
+    var user: User
+    var date: Date
+    
+    var body: some View {
+        HStack {
+            Image(uiImage: user.profilePicture )
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 28, height: 28)
+                .clipShape(Circle())
+                .background(
+                    ZStack {
+                        Circle().fill(Color(.systemGray5))
+                        Image(systemName: "photo")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                )
+            
+            VStack(alignment: .leading) {
+                Text(user.name)
+                    .font(.footnote.bold())
+                Text(date.string())
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+}
+
+extension Date {
+    func string() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        return formatter.string(from: self)
+    }
+}
+
+
+struct TagView: View {
+    
+    var text: String
+    
+    var body: some View {
+        Text(text)
+            .font(.caption.bold())
+            .padding(.vertical, 3)
+            .padding(.horizontal, 8)
+            .background(
+                Capsule()
+                    .fill(Color(.systemGray5))
+            )
+    }
+}
+
+struct CardButtonStyle: ButtonStyle {
+    
+    var color: Color
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.caption.weight(.semibold))
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(color)
+            )
+            .scaleEffect(configuration.isPressed ? 0.92: 1)
+            .animation(.spring(), value: configuration.isPressed)
+    }
+}
+
+
 //struct CardView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        CardView()
