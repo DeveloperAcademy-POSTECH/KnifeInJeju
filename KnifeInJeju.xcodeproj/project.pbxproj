@@ -13,7 +13,6 @@
 		210F1EF227FD6872008521D2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EF127FD6872008521D2 /* LogView.swift */; };
 		B97B565A280022550031905B /* PostModifiyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97B5659280022550031905B /* PostModifiyView.swift */; };
 		B97B566228018AB00031905B /* CertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97B566128018AB00031905B /* CertifyView.swift */; };
-		B97B56642804238C0031905B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B97B56632804238C0031905B /* LaunchScreen.storyboard */; };
 		B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */; };
 		B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918E027FC326E006B79D8 /* ContentView.swift */; };
 		B9B918E327FC3270006B79D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B918E227FC3270006B79D8 /* Assets.xcassets */; };
@@ -47,7 +46,7 @@
 		210F1EF127FD6872008521D2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		B97B5659280022550031905B /* PostModifiyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModifiyView.swift; sourceTree = "<group>"; };
 		B97B566128018AB00031905B /* CertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertifyView.swift; sourceTree = "<group>"; };
-		B97B56632804238C0031905B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B97B5665280549A20031905B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B9B918DB27FC326E006B79D8 /* KnifeInJeju.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KnifeInJeju.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnifeInJejuApp.swift; sourceTree = "<group>"; };
 		B9B918E027FC326E006B79D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -108,6 +107,7 @@
 		B9B918DD27FC326E006B79D8 /* KnifeInJeju */ = {
 			isa = PBXGroup;
 			children = (
+				B97B5665280549A20031905B /* Info.plist */,
 				B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */,
 				B9B918E027FC326E006B79D8 /* ContentView.swift */,
 				210F1EEB27FD6858008521D2 /* HomeView.swift */,
@@ -116,7 +116,6 @@
 				210F1EF127FD6872008521D2 /* LogView.swift */,
 				B97B5659280022550031905B /* PostModifiyView.swift */,
 				B97B566128018AB00031905B /* CertifyView.swift */,
-				B97B56632804238C0031905B /* LaunchScreen.storyboard */,
 				B9B918E227FC3270006B79D8 /* Assets.xcassets */,
 				B9B918E427FC3270006B79D8 /* Preview Content */,
 			);
@@ -252,7 +251,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B97B56642804238C0031905B /* LaunchScreen.storyboard in Resources */,
 				B9B918E627FC3270006B79D8 /* Preview Assets.xcassets in Resources */,
 				B9B918E327FC3270006B79D8 /* Assets.xcassets in Resources */,
 			);
@@ -448,9 +446,9 @@
 				DEVELOPMENT_TEAM = 3PFDRPLY6N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KnifeInJeju/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -478,9 +476,9 @@
 				DEVELOPMENT_TEAM = 3PFDRPLY6N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KnifeInJeju/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
