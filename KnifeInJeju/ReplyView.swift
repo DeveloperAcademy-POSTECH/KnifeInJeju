@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ReplyView: View {
     
-    @State var qTitle: String = "미술 입시는 어떻게 하셨나요?"
-    @State var qContent: String = "저는 미술을 꿈꾸고 있는 중학교 2학년아에요! 지방에 거주하고 있는지라 미술 관련 정보를 얻기 힘들고 대다수가 수도권에 있는 친구들에게 해당할 법한 이야기라 공감하기가 쉽지 않네요"
-    @State var rContent: String = ""
+    @State var title: String = "미술 입시는 어떻게 하셨나요?"
+    @State var text: String = "저는 미술을 꿈꾸고 있는 중학교 2학년아에요! 지방에 거주하고 있는지라 미술 관련 정보를 얻기 힘들고 대다수가 수도권에 있는 친구들에게 해당할 법한 이야기라 공감하기가 쉽지 않네요"
+    @State var answer: String = ""
     
     var body: some View {
         
@@ -27,10 +27,12 @@ struct ReplyView: View {
                         Text("답변하실 질문입니다").font(.headline)
                         
                         VStack(alignment: .leading) {
-                            Text(qTitle)
+                            Text(title)
                                 .font(.body)
                                 .padding()
-                            Text(qContent)
+                            Divider()
+                                .padding(.horizontal)
+                            Text(text)
                                 .font(.callout)
                                 .padding()
                         }
@@ -42,7 +44,7 @@ struct ReplyView: View {
                     Spacer()
                     Group {
                         Text("답변 내용을 작성해주세요").font(.headline)
-                        TextField("답변 내용을 입력해주세요", text: $rContent)
+                        TextField("답변 내용을 입력해주세요", text: $answer)
                             .padding(EdgeInsets(top: 0, leading: 20, bottom: 100, trailing: 30))
                             .frame(height: 150)
                             .background(Color.white)

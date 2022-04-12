@@ -46,11 +46,11 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 struct AskView: View {
 
-    @State var qTitle: String = ""
-    @State var qContent: String = ""
-    @State var qKeyword: String = ""
+    @State var title: String = ""
+    @State var text: String = ""
+    @State var tag: String = ""
     @State private var showSheet = false
-    @State private var image = UIImage()
+    @State var image = UIImage()
     
     var body: some View {
         
@@ -64,7 +64,7 @@ struct AskView: View {
                     
                     Group {
                         Text("제목을 작성해주세요").font(.headline)
-                        TextField("제목을 입력해주세요", text: $qTitle)
+                        TextField("제목을 입력해주세요", text: $title)
                             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 30))
                             .frame(height: 50)
                             .background(Color.white)
@@ -76,7 +76,7 @@ struct AskView: View {
                     
                     Group {
                         Text("질문 내용을 작성해주세요").font(.headline)
-                        TextField("질문 내용을 입력해주세요", text: $qContent)
+                        TextField("질문 내용을 입력해주세요", text: $text)
                             .padding(EdgeInsets(top: 0, leading: 20, bottom: 100, trailing: 30))
                             .frame(height: 150)
                             .background(Color.white)
@@ -88,14 +88,14 @@ struct AskView: View {
                     
                     Group {
                         Text("질문 키워드").font(.headline)
-                        TextField("질문 관련 키워드를 입력해주세요", text: $qKeyword)
+                        TextField("질문 관련 키워드를 입력해주세요", text: $tag)
                             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 30))
                             .frame(height: 50)
                             .background(Color.white)
                             .textFieldStyle(PlainTextFieldStyle())
                             .cornerRadius(10)
                         
-                        Text(changeToHashTag(_:qKeyword))
+                        Text(changeToHashTag(_:tag))
                             .foregroundColor(Color.orange)
                             .bold()
                     }.offset(x: 0, y: -50)
