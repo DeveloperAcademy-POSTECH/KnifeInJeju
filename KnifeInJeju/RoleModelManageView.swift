@@ -19,11 +19,6 @@ class RoleModelManageViewModel: ObservableObject {
         roleModels.remove(atOffsets: offsets)
     }
     
-    //    func delRoleModel(_ item: RoleModel) {
-    //        var index = roleModels.firstIndex(of: item)
-    //        roleModels.remove(at: )
-    //    }
-    
 }
 
 struct RoleModel: Identifiable, Equatable, Hashable{
@@ -117,10 +112,6 @@ struct RoleModelManageView: View {
                     .frame(width: 50, height: 30, alignment: .leading)
                     .foregroundColor(Color(0xFFBE0B))
                 }
-                //                .swipeActions(edge: .trailing) {
-                //                    Button("Del") {rolemodel.viewtoggle = false}
-                //
-                //                }
             }
             .onDelete(perform: vm.deleteRoleModel)
             
