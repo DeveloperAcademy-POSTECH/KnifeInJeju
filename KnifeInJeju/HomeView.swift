@@ -11,7 +11,6 @@ class HomeViewModel: ObservableObject {
     
     @Published var queryQuestions: [Question] = []
     @Published var queryString = ""
-    @Published var sortCase: SortCase = .heart
     
     // 백엔드 존재 시 데이터베이스에 쿼리하는 코드가 들어감. but 없으므로 더미 데이터에 쿼리함.
     func getQueryQuestions(user: User) {
@@ -40,43 +39,6 @@ class HomeViewModel: ObservableObject {
             getQueryQuestions(user: user)
         } else {
             fatalError("Failed Get Database In saveQuestions()")
-        }
-    }
-}
-
-enum SortCase: String, CaseIterable, Identifiable {
-    
-    case heart
-    case name
-    
-    var id: String {
-        return self.rawValue
-    }
-    
-    var name: String {
-        switch self {
-        case .heart:
-            return "하트"
-        case .name:
-            return "이름"
-        }
-    }
-    
-    var labelImage: String {
-        switch self {
-        case .heart:
-            return "heart.fill"
-        case .name:
-            return "textformat"
-        }
-    }
-    
-    var tintColor: Color {
-        switch self {
-        case .heart:
-            return .red
-        case .name:
-            return .primary
         }
     }
 }
