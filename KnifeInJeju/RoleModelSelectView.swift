@@ -14,51 +14,52 @@ import SwiftUI
 
 struct RoleModelSelectView: View {
     @StateObject private var vm = RoleModelManageViewModel()
-    @State var selectCount:Int = 0
+    @State var selectCount = 0
     
     var body: some View {
         headLineView
-        ScrollView(showsIndicators: false) {
-            ForEach($vm.roleModels) { $rolemodel in
-                HStack {
-                    HStack{
-                        Image(uiImage: rolemodel.profilePicture )
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                            .background(
-                                ZStack {
-                                    Circle().fill(Color(.systemGray5))
-                                    Image(systemName: "photo")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-                            )
-                        Text(rolemodel.name)
-                            .font(.system(size: 16.0, weight: .regular))
+        VStack {
+            ScrollView(showsIndicators: false) {
+                ForEach($vm.roleModels) { $rolemodel in
+                    HStack {
+                        HStack{
+                            Image(uiImage: rolemodel.profilePicture )
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                                .background(
+                                    ZStack {
+                                        Circle().fill(Color(.systemGray5))
+                                        Image(systemName: "photo")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                )
+                            Text(rolemodel.name)
+                                .font(.system(size: 16.0, weight: .regular))
+                            
+                        }
+                        .frame(width: 310, height: 60, alignment: .leading)
                         
+                        Toggle(isOn: $rolemodel.checkToggle) {
+                        }
+                        .frame(width: 30, height: 40)
+                        .foregroundColor(Color(0xFF9407))
+                        .toggleStyle(CircleToggleStyle(selectCount: $selectCount))
                     }
-                    .frame(width: 310, height: 60, alignment: .leading)
-                    
-                    Toggle(isOn: $rolemodel.checkToggle) {
-                        Text("선택됨")
-                    }
-                    .frame(width: 30, height: 40)
-                    .foregroundColor(Color(0xFF9407))
-                    .toggleStyle(CircleToggleStyle(selectCount: $selectCount))
                 }
             }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("롤모델 선택")
-                    .font(.headline)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("롤모델 선택")
+                        .font(.headline)
+                }
             }
-        }
-        if selectCount == 1 {
-            questionButton
+            if selectCount == 1 {
+                questionButton
+            }
         }
     }
     
@@ -91,7 +92,7 @@ struct RoleModelSelectView_Previews: PreviewProvider {
 
 struct CircleToggleStyle: ToggleStyle {
     @Environment(\.isEnabled) var isEnabled
-    @Binding var selectCount:Int
+    @Binding var selectCount : Int
     
     func makeBody(configuration: Configuration) -> some View {
         Button(action: {
