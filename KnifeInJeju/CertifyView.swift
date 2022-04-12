@@ -14,6 +14,8 @@ struct CertifyView: View {
     @State var showImagePicker: Bool = false
     @State var image: Image? = nil
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("어떤 전문가인지 선택해주세요.")
@@ -55,7 +57,7 @@ struct CertifyView: View {
                             .foregroundColor(.orange)
                             .frame(width: 30, height: 30)
                         
-                        image?.resizable().frame(width: 120, height: 120).cornerRadius(20.0)
+                        image?.resizable().frame(width: 120, height: 120).cornerRadius(10)
                     }
                     .sheet(isPresented: $showImagePicker) {
                         ImagePicker(sourceType: .photoLibrary) { image in
@@ -73,12 +75,14 @@ struct CertifyView: View {
             Spacer()
             
             Button(action: {
+                // 버튼을 누르면, 작성된 내용이 서버로? 전송됩니다.
+                dismiss()
             }) {
                 Text("제출하기")
                     .foregroundColor(.white)
                     .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, maxHeight: 50)
             }
-            .frame(maxWidth: .infinity, maxHeight: 50)
             .background(.orange)
             .cornerRadius(10)
         }

@@ -14,14 +14,18 @@ struct PostModifiyView: View {
     @State var showImagePicker: Bool = false
     @State var image: Image? = nil
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         VStack(alignment: .leading) {
             Text("제목을 작성해주세요.")
                 .font(.subheadline)
+            
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.white)
                     .frame(height: 42)
+                
                 TextField("제목을 입력해주세요.", text: $title)
                     .padding(10)
             }
@@ -29,10 +33,12 @@ struct PostModifiyView: View {
             Text("내용을 작성해주세요.")
                 .font(.subheadline)
                 .padding(.top, 40)
+            
             ZStack(alignment: .topLeading) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.white)
                     .frame(height: 125)
+                
                 TextField("내용을 입력해주세요.", text: $content)
                     .padding(10)
             }
@@ -40,13 +46,16 @@ struct PostModifiyView: View {
             Text("사진을 업로드해주세요.")
                 .font(.subheadline)
                 .padding(.top, 40)
+            
             Text("프로필에 보일 사진을 첨부해주세요.")
                 .font(.caption)
                 .foregroundColor(.secondary)
+            
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(.white)
                     .frame(height: 160)
+                
                 Button(action: {
                     self.showImagePicker.toggle()
                 }) {
@@ -61,7 +70,7 @@ struct PostModifiyView: View {
                             .foregroundColor(.orange)
                             .frame(width: 30, height: 30)
                         
-                        image?.resizable().frame(width: 120, height: 120).cornerRadius(20.0)
+                        image?.resizable().frame(width: 120, height: 120).cornerRadius(10)
                     }
                     .sheet(isPresented: $showImagePicker) {
                         ImagePicker(sourceType: .photoLibrary) { image in
@@ -73,12 +82,15 @@ struct PostModifiyView: View {
             
             Spacer()
             
-            Button(action: {}) {
+            Button(action: {
+                // 수정하기를 누르면, 작성된 내용들이 서버?로 전송됩니다.
+                dismiss()
+            }) {
                 Text("수정하기")
                     .foregroundColor(.white)
                     .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, maxHeight: 50)
             }
-            .frame(maxWidth: .infinity, maxHeight: 50)
             .background(.orange)
             .cornerRadius(10)
         }
