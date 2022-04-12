@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct PostModifiyView: View {
-    @State var title: String = ""
-    @State var content: String = ""
+    @State private var title: String = ""
+    @State private var content: String = ""
     
-    @State var showImagePicker: Bool = false
-    @State var image: Image? = nil
-    @State var imageData: Data = Data()
+    @State private var showImagePicker: Bool = false
+    @State private var image: Image? = nil
+    @State private var imageData: Data = Data()
+    
+    @State private var showingAlert: Bool = false
     
     @Environment(\.dismiss) var dismiss
     
@@ -85,18 +87,23 @@ struct PostModifiyView: View {
             Spacer()
             
             Button(action: {
+                // 예외 처리
+                if(title == "" || content == "") {
+                    showingAlert = true
+                }
                 
-                // json 데이터 생성
-                let jsonData: [String: Any] = [
-                    "title": title,
-                    "content": content,
-                    "image": imageData
-                ] as Dictionary
-                
-                // 서버로 전송
-                
-                
-                dismiss()
+                else {
+                    // json 데이터 생성
+                    let jsonData: [String: Any] = [
+                        "title": title,
+                        "content": content,
+                        "image": imageData
+                    ] as Dictionary
+                    
+                    // 서버로 전송
+                    
+                    dismiss()
+                }
             }) {
                 Text("수정하기")
                     .foregroundColor(.white)
@@ -105,6 +112,11 @@ struct PostModifiyView: View {
             }
             .background(.orange)
             .cornerRadius(10)
+            .alert("제목과 내용을 모두 입력해주세요.", isPresented: $showingAlert) {
+                Button("Ok") {}
+            } message: {
+                Text("제목 혹은 내용이 입력되지 않은 부분이 있습니다.")
+            }
         }
         .padding()
         .background(Color(.systemGray6))

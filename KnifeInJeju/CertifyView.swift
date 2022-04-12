@@ -77,7 +77,6 @@ struct CertifyView: View {
             Spacer()
             
             Button(action: {
-                
                 //json 데이터 생성
                 let jsonData: [String: Any] = [
                     "expert": exports[selectedExpert],
