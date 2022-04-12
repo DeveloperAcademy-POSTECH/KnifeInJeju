@@ -13,6 +13,7 @@ struct PostModifiyView: View {
     
     @State var showImagePicker: Bool = false
     @State var image: Image? = nil
+    @State var imageData: Data = Data()
     
     @Environment(\.dismiss) var dismiss
     
@@ -75,6 +76,7 @@ struct PostModifiyView: View {
                     .sheet(isPresented: $showImagePicker) {
                         ImagePicker(sourceType: .photoLibrary) { image in
                             self.image = Image(uiImage: image)
+                            self.imageData = image.getData()
                         }
                     }
                 }
@@ -83,7 +85,17 @@ struct PostModifiyView: View {
             Spacer()
             
             Button(action: {
-                // 수정하기를 누르면, 작성된 내용들이 서버?로 전송됩니다.
+                
+                // json 데이터 생성
+                let jsonData: [String: Any] = [
+                    "title": title,
+                    "content": content,
+                    "image": imageData
+                ] as Dictionary
+                
+                // 서버로 전송
+                
+                
                 dismiss()
             }) {
                 Text("수정하기")

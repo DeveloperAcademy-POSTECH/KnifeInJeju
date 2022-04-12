@@ -13,6 +13,7 @@ struct CertifyView: View {
     
     @State var showImagePicker: Bool = false
     @State var image: Image? = nil
+    @State var imageData: Data = Data()
     
     @Environment(\.dismiss) var dismiss
     
@@ -62,6 +63,7 @@ struct CertifyView: View {
                     .sheet(isPresented: $showImagePicker) {
                         ImagePicker(sourceType: .photoLibrary) { image in
                             self.image = Image(uiImage: image)
+                            self.imageData = image.getData()
                         }
                     }
                 }
@@ -75,7 +77,15 @@ struct CertifyView: View {
             Spacer()
             
             Button(action: {
-                // 버튼을 누르면, 작성된 내용이 서버로? 전송됩니다.
+                
+                //json 데이터 생성
+                let jsonData: [String: Any] = [
+                    "expert": exports[selectedExpert],
+                    "image": imageData
+                ] as Dictionary
+                
+                //서버로 전송
+                
                 dismiss()
             }) {
                 Text("제출하기")
@@ -143,5 +153,14 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+    }
+}
+
+extension UIImage {
+    func getData() -> Data {
+        guard let data: Data = self.jpegData(compressionQuality: 0.5) ?? self.pngData() else {
+            return Data()
+        }
+        return data
     }
 }
