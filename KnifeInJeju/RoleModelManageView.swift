@@ -15,11 +15,15 @@ class RoleModelManageViewModel: ObservableObject {
         roleModels = RoleModel.dummyData
     }
     
-    func deleteRoleModel(_ item: RoleModel) {
-        if let index = roleModels.firstIndex(of: item) {
-            roleModels.remove(at: index)
-        }
+    func deleteRoleModel(at offsets: IndexSet) {
+        roleModels.remove(atOffsets: offsets)
     }
+    
+    //    func delRoleModel(_ item: RoleModel) {
+    //        var index = roleModels.firstIndex(of: item)
+    //        roleModels.remove(at: )
+    //    }
+    
 }
 
 struct RoleModel: Identifiable, Equatable, Hashable{
@@ -31,54 +35,48 @@ struct RoleModel: Identifiable, Equatable, Hashable{
     var id = UUID()
     var image: Image = Image(systemName: "person.circle")
     var name: String
+    private var profilePictureData: Data?
     var bookmarkToggle: Bool = true
     var bookmarkCount: Int = 0
     var checkToggle: Bool = false
+    var profilePicture: UIImage {
+        get {
+            UIImage(data: profilePictureData ?? Data()) ?? UIImage()
+        } set {
+            profilePictureData = newValue.getData()
+        }
+    }
 }
 
 extension RoleModel {
     static let dummyData = [
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "Cali",
+        RoleModel(name: "Cali",
                   bookmarkCount: 0),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "Evan",
+        RoleModel(name: "Evan",
                   bookmarkCount: 4),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "Eve",
+        RoleModel(name: "Eve",
                   bookmarkCount: 3),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "Jayden",
+        RoleModel(name: "Jayden",
                   bookmarkCount: 5),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "Juju",
+        RoleModel(name: "Juju",
                   bookmarkCount: 2),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "Leeo",
+        RoleModel(name: "Leeo",
                   bookmarkCount: 100),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "Judy",
+        RoleModel(name: "Judy",
                   bookmarkCount: 30),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "role_model",
+        RoleModel(name: "role_model",
                   bookmarkCount: 30),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "role__model",
+        RoleModel(name: "role__model",
                   bookmarkCount: 30),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "role_model_",
+        RoleModel(name: "role_model_",
                   bookmarkCount: 30),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "_role_model",
+        RoleModel(name: "_role_model",
                   bookmarkCount: 30),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "_role_model",
+        RoleModel(name: "_role_model",
                   bookmarkCount: 30),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "_role_model",
+        RoleModel(name: "_role_model",
                   bookmarkCount: 30),
-        RoleModel(image: Image(systemName: "person.circle"),
-                  name: "_role_model",
+        RoleModel(name: "_role_model",
                   bookmarkCount: 30)
     ]
 }
@@ -88,15 +86,24 @@ struct RoleModelManageView: View {
     @StateObject private var vm = RoleModelManageViewModel()
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
+        List {
             ForEach($vm.roleModels) { $rolemodel in
                 // $ Binding이 없으면 model data를 뿌려주기만 함 (iOS 15부터 추가)
                 HStack {
                     HStack{
-                        rolemodel.image
+                        Image(uiImage: rolemodel.profilePicture )
                             .resizable()
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                            .background(
+                                ZStack {
+                                    Circle().fill(Color(.systemGray5))
+                                    Image(systemName: "photo")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                            )
                         Text(rolemodel.name)
                             .font(.system(size: 16.0, weight: .regular))
                         
@@ -110,9 +117,15 @@ struct RoleModelManageView: View {
                     .frame(width: 50, height: 30, alignment: .leading)
                     .foregroundColor(Color(0xFFBE0B))
                 }
-                
+                //                .swipeActions(edge: .trailing) {
+                //                    Button("Del") {rolemodel.viewtoggle = false}
+                //
+                //                }
             }
+            .onDelete(perform: vm.deleteRoleModel)
+            
         }
+        .listStyle(.plain)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
