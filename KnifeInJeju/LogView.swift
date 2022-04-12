@@ -12,7 +12,7 @@ class LogViewModel: ObservableObject {
     @Published var answeredQuestions: [Question] = []
     @Published var unansweredQuestions: [Question] = []
     @Published var questionCase: QuestionCase = .toMe
-    @Published var onlyBookMark = false
+    @Published var showBookmarked = false
     
     func getQuestions(user: User) {
         // 백엔드 데이터베이스 역할을 할 data 변수 ( 로컬에 json 파일로 저장되어 있음)
@@ -83,7 +83,9 @@ class LogViewModel: ObservableObject {
         } else {
             fatalError("Failed Get Database In saveQuestions()")
         }
+
     }
+    
 }
 
 struct LogView: View {
@@ -129,8 +131,8 @@ struct LogView: View {
             Spacer()
             
             HStack {
-                Image(systemName: vm.onlyBookMark ? "bookmark.fill" : "bookmark")
-                    .foregroundColor(vm.onlyBookMark ? .yellow : .primary)
+                Image(systemName: vm.showBookmarked ? "bookmark.fill" : "bookmark")
+                    .foregroundColor(vm.showBookmarked ? .yellow : .primary)
                 Text("북마크 모아보기")
             }
             .font(.footnote.weight(.semibold))
@@ -142,10 +144,10 @@ struct LogView: View {
             )
             .onTapGesture {
                 withAnimation(.spring()) {
-                    vm.onlyBookMark.toggle()
+                    vm.showBookmarked.toggle()
                 }
             }
-            .sheet(isPresented: $vm.onlyBookMark, onDismiss: {vm.getQuestions(user: loginUserVM.user)} ) {
+            .sheet(isPresented: $vm.showBookmarked, onDismiss: {vm.getQuestions(user: loginUserVM.user)} ) {
                 bookmarkedList
             }
         }
@@ -161,6 +163,18 @@ struct LogView: View {
                     .fill(.gray.opacity(0.5))
                     .frame(width: 60, height: 5)
                     .padding(.top, 10)
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        vm.showBookmarked = false
+                    } label: {
+                        Text("취소")
+                            .font(.headline)
+                            .foregroundColor(.orange)
+                    }
+                }
                 
                 Text("북마크한 질문 \(loginUserVM.user.bookmarkedQuestions.count)개")
                     .font(.footnote)
@@ -194,12 +208,10 @@ struct LogView: View {
                 }
             }
             
-            if !vm.answeredQuestions.isEmpty && !vm.unansweredQuestions.isEmpty {
-                Capsule()
-                    .fill(.background)
-                    .frame(maxWidth: .infinity).frame(height: 2)
-                    .padding(.vertical, 4)
-            }
+            Capsule()
+                .fill(.background)
+                .frame(maxWidth: .infinity).frame(height: 2)
+                .padding(.vertical, 4)
             
             ForEach($vm.answeredQuestions) { $question in
                 if !question.isRejected {
@@ -234,7 +246,7 @@ struct CustomPicker: View {
                     .padding(.vertical, 12)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        withAnimation(.timingCurve(0.16, 1, 0.3, 1)) {
+                        withAnimation(.expo) {
                             questionCase = .toMe
                         }
                     }
@@ -243,7 +255,7 @@ struct CustomPicker: View {
                     .padding(.vertical, 12)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        withAnimation(.timingCurve(0.16, 1, 0.3, 1)) {
+                        withAnimation(.expo) {
                             questionCase = .byMe
                         }
                     }
@@ -261,6 +273,10 @@ struct CustomPicker: View {
             Rectangle().fill(Color(.systemGray5)).frame(height: 1)
         }
     }
+}
+
+extension Animation {
+    static let expo: Animation = .timingCurve(0.16, 1, 0.3, 1)
 }
 
 //struct LogView_Previews: PreviewProvider {

@@ -60,13 +60,27 @@ struct CardView: View {
     private var cardDetail: some View {
         VStack(alignment: .leading, spacing: 12) {
             
-            Capsule()
-                .fill(.gray.opacity(0.5))
-                .frame(width: 60, height: 5)
-                .frame(maxWidth: .infinity, alignment: .center)
-            
-            UserHeaderView(user: question.from, date: question.date)
-                .padding(.bottom, 10)
+            Group {
+                Capsule()
+                    .fill(.gray.opacity(0.5))
+                    .frame(width: 60, height: 5)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
+                HStack {
+                    Spacer()
+                    
+                    Button {
+                        showCardDetailView = false
+                    } label: {
+                        Text("취소")
+                            .font(.headline)
+                            .foregroundColor(.orange)
+                    }
+                }
+                
+                UserHeaderView(user: question.from, date: question.date)
+                    .padding(.bottom, 10)
+            }
             
             HStack {
                 header(font: .headline.bold())
@@ -349,10 +363,23 @@ struct CardButtonStyle: ButtonStyle {
                     .fill(color)
             )
             .scaleEffect(configuration.isPressed ? 0.92: 1)
+            .opacity(configuration.isPressed ? 0.8 : 1)
             .animation(.spring(), value: configuration.isPressed)
     }
 }
 
+struct TestView<T>: View where T: View {
+    
+    let content: () -> T
+    
+    init(@ViewBuilder _ content: @escaping () -> T) {
+        self.content = content
+    }
+    
+    var body: some View {
+        content()
+    }
+}
 
 //struct CardView_Previews: PreviewProvider {
 //    static var previews: some View {
