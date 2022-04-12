@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CertifyView: View {
-    var exports: Array<String> = ["Doctor", "Teacher", "a"]
+    var exports: Array<String> = ["Doctor", "Teacher", "lawyer"]
     @State private var selectedExpert = 0
     
     @State var showImagePicker: Bool = false
