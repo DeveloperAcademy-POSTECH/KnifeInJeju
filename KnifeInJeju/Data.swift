@@ -80,6 +80,7 @@ struct User: Identifiable, Codable, Hashable {
 extension Question {
     static let dummyData = [
         
+        // 나에게 온 질문들
         Question(title: "미술 입시 어떻게 하셨어요?",
                  text: "저는 미술을 꿈꾸고 있는 중학교 2학년이에요!. 지방에 거주하고 있는지라 미술관련 정보를 얻기 힘들고 대다수가 수도권에 있는 친구들에게 해당할 법한 이야기라 공감하기가 쉽지 않네요..",
                  from: User.dummyData[1],
@@ -113,6 +114,7 @@ extension Question {
                  heartCount: 0,
                  tags: ["art", "mind"]),
         
+        // 내가 보낸 질문들
         Question(title: "장미 허브에 진드기가 났는데 어떻게 하는게 좋을까요?",
                  text: "평소에 유튜브로 식물관련해서 좋은 정보 많이 챙겨가고 있는 한 구독자에요. 다름이 아니라 제가 키우는 장미 허브에 진드기가 일주일 전부터 생기기 시작했어요.. 일일히 제거한다든가 햇빛이 잘 드는 자리에 두어봤는데도 완전히 제거하는 게 쉽지 않네요.. 지지난번에 올리신 브이로그에서 진드기로 곤역을 겪으신 적이 있다는 경험을 말씀하신게 떠올라서 질문드려요.",
                  from: User.dummyLoginUserData,
@@ -142,10 +144,47 @@ extension Question {
         Question(title: "어떤 전등을 쓰고 계신가요??",
                  text: "어제 출연하신 예능 잘 봤어요! 집들이 하실 때 파란색 전등이 되게 예뻐서 기억에 남아서 질문 드려봐요.. 혹시 어떤 모델인지 알려주실 수 있으신가요??",
                  from: User.dummyLoginUserData,
-                 to: User.dummyData[2],
+                 to: User.dummyData[6],
                  date: Date(),
                  heartCount: 6,
-                 tags: ["interior"])
+                 tags: ["interior"]),
+        
+        // 타인의 질문들
+        Question(title: "여행 명소 추천 부탁드려요..",
+                 text: "저도 OO님이 살고 계시는 곳으로 2주 뒤에 여행갈 예정이에요. 벌써부터 설레고 기대되는데 괜찮은 장소 있다면 추천해주세요!",
+                 from: User.dummyData[4],
+                 to: User.dummyData[5],
+                 date: Date(),
+                 answer: "우선 호미곶을 가보시는 걸 추천드려요. 지금으로부터 2주 뒤면 아마 유채꽃이 만발해 있을 거에요 ",
+                 heartCount: 6,
+                 tags: ["Trip"]),
+        
+        Question(title: "영국식 영어와 미국식 영어의 차이에 관해서 궁금해요",
+                 text: "아는 영국인 친구와 사귀다보니 영어가 이전보다 많이 늘어난 게 느껴져요. 제가 궁금한 건 영국식 영어를 쓰면 향후 미국으로 유학시에 주의해야 할 단어의 의미 차이 같은 게 있을까요? ",
+                 from: User.dummyData[2],
+                 to: User.dummyData[4],
+                 date: Date(),
+                 answer: "분명 단어적인 차이가 적지만 있긴 하고 억양에서 차이가 체감이 되는 편이지만 저희 나라 사투리로 정상적인 사람이라면 아무도 문제삼지 않는 것처럼 미국인들도 영국식 영어에 대해 불편해하지 않을테니 걱정마세요",
+                 heartCount: 6,
+                 tags: ["English"]),
+        
+        Question(title: "인테리어 감각은 어떻게 해야 늘 수 있을까요",
+                 text: "저도 OO님이 인스타에 올리시는 것처럼 멋진 인테리어를 꾸미고 싶은 데 쉽지 않네요.. 어떻게 하면 인테리어 감각을 올릴 수 있을까요?",
+                 from: User.dummyData[1],
+                 to: User.dummyData[6],
+                 date: Date(),
+                 answer: "실제로 배치해보는 것이 좋은 경험이 될 거에요. 하지만 제일 중요한 건 본인이 너무 잘해야 한다는 강박관념을 가지시지 말고 즐기면서 하는 마인드랍니다.",
+                 heartCount: 6,
+                 tags: ["interior"]),
+        
+        Question(title: "공대에서 복수전공하기가 너무 어려워요",
+                 text: "저도 컴공을 복수전공하고 싶은데 공학인증제 때문에 복수전공 자격을 가지기가 너무 어렵네요.. 몇없는 저희 학교 복수전공 졸업생이신 선배님께 질문드리고 싶었어요..",
+                 from: User.dummyData[6],
+                 to: User.dummyData[5],
+                 date: Date(),
+                 answer: "저희학교는 17년부터 공학인증제를 포기할 수 있게 되었답니다. 다만 교수님들은 학생들이 공학인증제를 유지하길 바라는 편이시기에 학생들에게 적극적으로 홍보하지 않아 잘 알려지지 않아을 뿐이고요. 과사에 방문하셔서 직접 여쭤보는 게 제일 빠를 것 같아요",
+                 heartCount: 6,
+                 tags: ["University"])
     ]
 }
 
@@ -154,9 +193,12 @@ extension User {
     
     static let dummyData = [
             User(name: "Cho"),
-            User(name: "hojong Kang"),
-            User(name: "sohi Han"),
-            User(name: "Minju Lee")
+            User(name: "Hojong Kang"),
+            User(name: "Sohi Han"),
+            User(name: "Minju Lee"),
+            User(name: "Jihun Kim"),
+            User(name: "Jonghuk Lee"),
+            User(name: "Youjin So")
     ]
 }
 

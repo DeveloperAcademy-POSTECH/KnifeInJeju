@@ -166,6 +166,7 @@ struct CardView: View {
     
     private var footer: some View {
         HStack {
+            
             UserHeaderView(user: questionCase == .toMe ? question.from : question.to, date: question.date)
             
             Spacer()
@@ -276,7 +277,8 @@ struct CardView: View {
         .onTapGesture {
             withAnimation(.spring()){
                 if hearted {
-                    if loginUserVM.removeHearted(question: question) {
+                    let isRemoved = loginUserVM.removeHearted(question: question)
+                    if isRemoved {
                         question.heartCount -= 1
                         saveQuestion()
                     }
@@ -368,21 +370,11 @@ struct CardButtonStyle: ButtonStyle {
     }
 }
 
-struct TestView<T>: View where T: View {
-    
-    let content: () -> T
-    
-    init(@ViewBuilder _ content: @escaping () -> T) {
-        self.content = content
-    }
-    
-    var body: some View {
-        content()
-    }
-}
-
 //struct CardView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        CardView()
 //    }
 //}
+
+
+

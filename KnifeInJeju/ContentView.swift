@@ -13,6 +13,7 @@ struct ContentView: View {
     var body: some View {
         TabView {
             HomeView()
+                .environmentObject(loginUserVM)
                 .tabItem {
                     Label {
                         Text("홈")

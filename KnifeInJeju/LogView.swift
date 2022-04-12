@@ -20,42 +20,30 @@ class LogViewModel: ObservableObject {
             
             // 쿼리역할을 해줄 내부 로직 ( LogView(질문 보관함)은 내(LoginUser)가 받은, 보낸 질문 중 하나를 세그먼트 컨트롤으로
             // 선택해서 해당 요소만 가져오길 원함.
+            var answered: [Question] = []
+            var unanswered: [Question] = []
+            var questions: [Question] = []
+            
             switch questionCase {
             case .toMe:
-                
-                let questions = data.filter{ $0.to.id == user.id }
-                var answered: [Question] = []
-                var unanswered: [Question] = []
-                
-                questions.forEach { question in
-                    if question.isAnswered {
-                        answered.append(question)
-                    } else {
-                        unanswered.append(question)
-                    }
-                }
-                answeredQuestions = answered
-                unansweredQuestions = unanswered
-                
+                questions = data.filter{ $0.to.id == user.id }
             case .byMe:
-                
-                let questions = data.filter{ $0.from.id == user.id }
-                var answered: [Question] = []
-                var unanswered: [Question] = []
-                
-                questions.forEach { question in
-                    if question.isAnswered {
-                        answered.append(question)
-                    } else {
-                        unanswered.append(question)
-                    }
-                }
-                answeredQuestions = answered
-                unansweredQuestions = unanswered
-
+                questions = data.filter{ $0.from.id == user.id }
             case .other:
                 fatalError("Failed by Wrong QuestionCase in getQuestions(case:loginUser:)")
             }
+            
+            questions.forEach { question in
+                if question.isAnswered {
+                    answered.append(question)
+                } else {
+                    unanswered.append(question)
+                }
+            }
+            
+            answeredQuestions = answered
+            unansweredQuestions = unanswered
+            
         } else {
             // 저장되어 있는 게 없으면 더미 데이터 저장하고 다시 getQuestion 불러옴, 재귀 무한루프 안빠지게 주의
             Storage.store(Question.dummyData, to: .documents, as: Storage.databaseAllQuestionURL)
