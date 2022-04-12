@@ -58,6 +58,7 @@ class LogViewModel: ObservableObject {
             
             allQuestions.forEach { question in
                 if let index = data.firstIndex(where: {$0.id == question.id }) {
+                    
                     data[index] = question
                     
                     if question.isRejected, question.from == user {
@@ -136,54 +137,11 @@ struct LogView: View {
                 }
             }
             .sheet(isPresented: $vm.showBookmarked, onDismiss: {vm.getQuestions(user: loginUserVM.user)} ) {
-                bookmarkedList
+                BookmarkListView(loginUserVM: loginUserVM)
             }
         }
         .padding(.horizontal, 17)
         .padding(.top, 20)
-    }
-    
-    private var bookmarkedList: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                
-                Capsule()
-                    .fill(.gray.opacity(0.5))
-                    .frame(width: 60, height: 5)
-                    .padding(.top, 10)
-                
-                HStack {
-                    Spacer()
-                    
-                    Button {
-                        vm.showBookmarked = false
-                    } label: {
-                        Text("취소")
-                            .font(.headline)
-                            .foregroundColor(.orange)
-                    }
-                }
-                
-                Text("북마크한 질문 \(loginUserVM.user.bookmarkedQuestions.count)개")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 10)
-                
-                ForEach($loginUserVM.user.bookmarkedQuestions) { $question in
-                    CardView(question: $question, loginUserVM: loginUserVM) {
-                        vm.saveQuestions(user: loginUserVM.user)
-                    }
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(.horizontal, 17)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemGray6))
-        .onAppear {
-            loginUserVM.getLoginUser()
-        }
     }
     
     private var list: some View {

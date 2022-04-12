@@ -36,7 +36,7 @@ struct HomeView: View {
     }
     
     private var questionButton: some View {
-        NavigationLink(destination: Text("asd"), tag: 2, selection: $selection) {
+        NavigationLink(destination: RoleModelSelectView(), tag: 2, selection: $selection) {
             Button{
                 // action
                 print("질문하기")
@@ -64,7 +64,7 @@ struct HomeView: View {
     }
     
     private var roleModelButton: some View {
-        NavigationLink(destination: Text(""), tag: 3, selection: $selection) {
+        NavigationLink(destination: RoleModelManageView(), tag: 3, selection: $selection) {
             Button{
                 print("내 롤모델")
                 self.selection = 3
@@ -129,7 +129,6 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(LoginUserViewModel())
-        //        RoleModelManageView()
     }
 }
 

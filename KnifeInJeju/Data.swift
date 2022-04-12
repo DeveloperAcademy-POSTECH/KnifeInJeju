@@ -224,6 +224,7 @@ class LoginUserViewModel: ObservableObject {
     
     func saveLoginUser() {
         Storage.store(user, to: .documents, as: Storage.loginUserURL)
+        getLoginUser()
     }
     
     func checkBookmarked(_ question: Question) -> Bool {
