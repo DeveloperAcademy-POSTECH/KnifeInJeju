@@ -7,17 +7,96 @@
 
 import SwiftUI
 
+class HomeViewModel: ObservableObject {
+    
+    @Published var queryQuestions: [Question] = []
+    @Published var queryString = ""
+    @Published var sortCase: SortCase = .heart
+    
+    // 백엔드 존재 시 데이터베이스에 쿼리하는 코드가 들어감. but 없으므로 더미 데이터에 쿼리함.
+    func getQueryQuestions(user: User) {
+        
+        if let data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
+            let filteredData = data.filter { question in
+                //let queryedText = question.text + question.title
+                return question.isAnswered && question.to.id != user.id
+            }
+            queryQuestions = filteredData
+        } else {
+            Storage.store(Question.dummyData, to: .documents, as: Storage.databaseAllQuestionURL)
+            getQueryQuestions(user: user)
+        }
+    }
+    
+    func saveQueryQuestions(string: String, user: User) {
+        // questions을 순회하며 원본 데이터베이스 파일에 있는 question과 같은 id를 찾으면 직접 변경해주고 다시 저장해줌
+        if var data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
+            queryQuestions.forEach { question in
+                if let index = data.firstIndex(where: { $0.id == question.id }) {
+                    data[index] = question
+                }
+            }
+            Storage.store(data, to: .documents, as: Storage.databaseAllQuestionURL)
+            getQueryQuestions(user: user)
+        } else {
+            fatalError("Failed Get Database In saveQuestions()")
+        }
+    }
+}
+
+enum SortCase: String, CaseIterable, Identifiable {
+    
+    case heart
+    case name
+    
+    var id: String {
+        return self.rawValue
+    }
+    
+    var name: String {
+        switch self {
+        case .heart:
+            return "하트"
+        case .name:
+            return "이름"
+        }
+    }
+    
+    var labelImage: String {
+        switch self {
+        case .heart:
+            return "heart.fill"
+        case .name:
+            return "textformat"
+        }
+    }
+    
+    var tintColor: Color {
+        switch self {
+        case .heart:
+            return .red
+        case .name:
+            return .primary
+        }
+    }
+}
+
 struct HomeView: View {
+    @EnvironmentObject var loginUserVM: LoginUserViewModel
+    @StateObject var vm = HomeViewModel()
+    
     @State var selection: Int? = nil
     @State var answerButtonToggle = false
     
     var body: some View {
         NavigationView{
             VStack {
-                Text("Qlog")
-                    .font(.system(size: 34.0, weight: .bold))
-                    .frame(width:320, height: 45, alignment: .leading)
-                    .padding(.bottom, 30)
+                Image("qlog")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width:300, height: 45, alignment: .leading)
+                    .padding()
+                
                 HStack(spacing: 15) {
                     questionButton
                     answerButton
@@ -25,6 +104,11 @@ struct HomeView: View {
                 }.padding(30)
                 Spacer(minLength: 13)
                 recentQuestions
+                
+            }
+            .onAppear{
+                loginUserVM.getLoginUser()
+                vm.getQueryQuestions(user: loginUserVM.user)
             }
             .navigationTitle(Text("홈"))
             .navigationBarHidden(true)
@@ -46,12 +130,15 @@ struct HomeView: View {
     }
     
     private var answerButton: some View {
-        Button{
-            answerButtonToggle = true
-            print("답변하기")
-        } label: {
-            Text("Answer")
-                .opacity(0)
+        NavigationLink(destination: LogView(), tag: 1, selection: $selection) {
+            Button{
+                answerButtonToggle = true
+                print("답변하기")
+                self.selection = 1
+            } label: {
+                Text("Answer")
+                    .opacity(0)
+            }
         }
         .buttonStyle(SelectButtonStyle(image: "exclamationmark.bubble.fill", text: "답변하기"))
     }
@@ -71,20 +158,32 @@ struct HomeView: View {
     private var recentQuestions: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 10)
+                .frame(maxWidth: .infinity)
                 .foregroundColor(Color(0xF2F2F7))
-            VStack {
+                .padding()
+            
+            VStack(spacing: 10) {
                 Text("최근 질문")
                     .font(.system(size: 20, weight: .semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
+                //.padding([.leading, .top])
                     .padding()
-                
-                ScrollView {
-                    VStack(spacing: 20) {
-                        
-                    }
-                }
+                list
+                    .padding(.horizontal)
+                //.padding()
             }
-        }.padding()
+            .padding()
+        }
+    }
+    
+    
+    private var list: some View {
+        ScrollView {
+            ForEach($vm.queryQuestions) { $question in
+                CardView(question: $question, loginUserVM: loginUserVM) {
+                    vm.saveQueryQuestions(string: vm.queryString, user: loginUserVM.user)
+                }            }
+        }
     }
 }
 
@@ -92,7 +191,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
-        RoleModelManageView()
     }
 }
 
