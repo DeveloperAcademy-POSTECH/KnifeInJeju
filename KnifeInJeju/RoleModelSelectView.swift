@@ -14,39 +14,53 @@ import SwiftUI
 
 struct RoleModelSelectView: View {
     @StateObject private var vm = RoleModelManageViewModel()
-    @State private var selectRoleModel = false
+    @State var selectCount = 0
     
     var body: some View {
         headLineView
-        ScrollView {
-            ForEach(RoleModel.dummyData) { rolemodel in
-                HStack {
-                    HStack{
-                        rolemodel.image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 40, height: 40)
-                        Text(rolemodel.name)
-                            .font(.system(size: 16.0, weight: .regular))
+        VStack {
+            ScrollView(showsIndicators: false) {
+                ForEach($vm.roleModels) { $rolemodel in
+                    HStack {
+                        HStack{
+                            Image(uiImage: rolemodel.profilePicture )
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                                .background(
+                                    ZStack {
+                                        Circle().fill(Color(.systemGray5))
+                                        Image(systemName: "photo")
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                )
+                            Text(rolemodel.name)
+                                .font(.system(size: 16.0, weight: .regular))
+                            
+                        }
+                        .frame(width: 310, height: 60, alignment: .leading)
                         
+                        Toggle(isOn: $rolemodel.checkToggle) {
+                        }
+                        .frame(width: 30, height: 40)
+                        .foregroundColor(Color(0xFF9407))
+                        .toggleStyle(CircleToggleStyle(selectCount: $selectCount))
                     }
-                    .frame(width: 300, height: 60, alignment: .leading)
-                    Toggle(isOn: $selectRoleModel) {
-                        Text("선택됨")
-                    }
-                    .foregroundColor(Color(0xFF9407))
-                    .toggleStyle(CircleToggleStyle())
                 }
             }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("롤모델 선택")
-                    .font(.headline)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("롤모델 선택")
+                        .font(.headline)
+                }
+            }
+            if selectCount == 1 {
+                questionButton
             }
         }
-        questoinButton
     }
     
     private var headLineView: some View {
@@ -56,7 +70,7 @@ struct RoleModelSelectView: View {
             .padding()
     }
     
-    private var questoinButton: some View {
+    private var questionButton: some View {
         Button(action: {}) {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
@@ -65,6 +79,7 @@ struct RoleModelSelectView: View {
                     .font(.system(size: 17.0, weight: .bold))
                     .foregroundColor(.white)
             }
+            .padding(.bottom)
         }
     }
 }
@@ -77,10 +92,18 @@ struct RoleModelSelectView_Previews: PreviewProvider {
 
 struct CircleToggleStyle: ToggleStyle {
     @Environment(\.isEnabled) var isEnabled
+    @Binding var selectCount : Int
     
     func makeBody(configuration: Configuration) -> some View {
         Button(action: {
-            configuration.isOn.toggle()
+            if selectCount < 1 && configuration.isOn == false{
+                configuration.isOn.toggle()
+                selectCount += 1
+            } else if selectCount == 1 && configuration.isOn == true {
+                configuration.isOn.toggle()
+                selectCount -= 1
+            }
+            print(selectCount)
         }, label: {
             HStack {
                 ZStack {
@@ -92,8 +115,6 @@ struct CircleToggleStyle: ToggleStyle {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 30, height: 30)
                 }
-                
-                
             }
         })
         .buttonStyle(PlainButtonStyle())

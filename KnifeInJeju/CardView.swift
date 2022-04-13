@@ -166,7 +166,6 @@ struct CardView: View {
     
     private var footer: some View {
         HStack {
-            
             UserHeaderView(user: questionCase == .toMe ? question.from : question.to, date: question.date)
             
             Spacer()
@@ -369,12 +368,3 @@ struct CardButtonStyle: ButtonStyle {
             .animation(.spring(), value: configuration.isPressed)
     }
 }
-
-//struct CardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CardView()
-//    }
-//}
-
-
-
