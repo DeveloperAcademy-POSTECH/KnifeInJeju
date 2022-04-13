@@ -13,6 +13,11 @@
 		210F1EF227FD6872008521D2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EF127FD6872008521D2 /* LogView.swift */; };
 		731F70B2280017A100A169C5 /* AskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731F70B1280017A100A169C5 /* AskView.swift */; };
 		73A1712F28041DC5008CAE69 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1712E28041DC5008CAE69 /* ReplyView.swift */; };
+		212BAFB5280574D5009E83EB /* RoleModelManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212BAFB4280574D5009E83EB /* RoleModelManageView.swift */; };
+		212BAFB7280574F0009E83EB /* RoleModelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212BAFB6280574F0009E83EB /* RoleModelSelectView.swift */; };
+		212BAFB928059CDC009E83EB /* BookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212BAFB828059CDC009E83EB /* BookmarkListView.swift */; };
+		213F7CA727FDE32D007E4458 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213F7CA627FDE32D007E4458 /* Data.swift */; };
+		213F7CA927FEC270007E4458 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213F7CA827FEC270007E4458 /* CardView.swift */; };
 		B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */; };
 		B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918E027FC326E006B79D8 /* ContentView.swift */; };
 		B9B918E327FC3270006B79D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B918E227FC3270006B79D8 /* Assets.xcassets */; };
@@ -46,6 +51,11 @@
 		210F1EF127FD6872008521D2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		731F70B1280017A100A169C5 /* AskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskView.swift; sourceTree = "<group>"; };
 		73A1712E28041DC5008CAE69 /* ReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyView.swift; sourceTree = "<group>"; };
+		212BAFB4280574D5009E83EB /* RoleModelManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleModelManageView.swift; sourceTree = "<group>"; };
+		212BAFB6280574F0009E83EB /* RoleModelSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleModelSelectView.swift; sourceTree = "<group>"; };
+		212BAFB828059CDC009E83EB /* BookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListView.swift; sourceTree = "<group>"; };
+		213F7CA627FDE32D007E4458 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		213F7CA827FEC270007E4458 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		B9B918DB27FC326E006B79D8 /* KnifeInJeju.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KnifeInJeju.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnifeInJejuApp.swift; sourceTree = "<group>"; };
 		B9B918E027FC326E006B79D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -110,9 +120,14 @@
 				210F1EEB27FD6858008521D2 /* HomeView.swift */,
 				210F1EED27FD685F008521D2 /* ProfileView.swift */,
 				210F1EEF27FD6866008521D2 /* SearchView.swift */,
+				212BAFB4280574D5009E83EB /* RoleModelManageView.swift */,
+				212BAFB6280574F0009E83EB /* RoleModelSelectView.swift */,
 				210F1EF127FD6872008521D2 /* LogView.swift */,
 				731F70B1280017A100A169C5 /* AskView.swift */,
 				73A1712E28041DC5008CAE69 /* ReplyView.swift */,
+				213F7CA827FEC270007E4458 /* CardView.swift */,
+				212BAFB828059CDC009E83EB /* BookmarkListView.swift */,
+				213F7CA627FDE32D007E4458 /* Data.swift */,
 				B9B918E227FC3270006B79D8 /* Assets.xcassets */,
 				B9B918EE27FC3270006B79D8 /* KnifeInJejuTests */,
 				B9B918E427FC3270006B79D8 /* Preview Content */,
@@ -278,10 +293,15 @@
 				210F1EF027FD6866008521D2 /* SearchView.swift in Sources */,
 				73A1712F28041DC5008CAE69 /* ReplyView.swift in Sources */,
 				210F1EF227FD6872008521D2 /* LogView.swift in Sources */,
+				212BAFB928059CDC009E83EB /* BookmarkListView.swift in Sources */,
 				210F1EEE27FD685F008521D2 /* ProfileView.swift in Sources */,
+				212BAFB5280574D5009E83EB /* RoleModelManageView.swift in Sources */,
+				212BAFB7280574F0009E83EB /* RoleModelSelectView.swift in Sources */,
 				210F1EEC27FD6858008521D2 /* HomeView.swift in Sources */,
 				B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */,
 				731F70B2280017A100A169C5 /* AskView.swift in Sources */,
+				213F7CA727FDE32D007E4458 /* Data.swift in Sources */,
+				213F7CA927FEC270007E4458 /* CardView.swift in Sources */,
 				B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,7 +461,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KnifeInJeju/Preview Content\"";
-				DEVELOPMENT_TEAM = 3PFDRPLY6N;
+				DEVELOPMENT_TEAM = VT69ZW2DRC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -449,6 +469,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -470,7 +491,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KnifeInJeju/Preview Content\"";
-				DEVELOPMENT_TEAM = 3PFDRPLY6N;
+				DEVELOPMENT_TEAM = VT69ZW2DRC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -478,6 +499,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

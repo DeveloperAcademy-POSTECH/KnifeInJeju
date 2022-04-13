@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var loginUserVM = LoginUserViewModel()
+    
     var body: some View {
         TabView {
             HomeView()
+                .environmentObject(loginUserVM)
                 .tabItem {
                     Label {
                         Text("홈")
@@ -20,6 +23,7 @@ struct ContentView: View {
                 }
             
             SearchView()
+                .environmentObject(loginUserVM)
                 .tabItem {
                     Label {
                         Text("검색")
@@ -29,6 +33,7 @@ struct ContentView: View {
                 }
             
             LogView()
+                .environmentObject(loginUserVM)
                 .tabItem {
                     Label {
                         Text("보관함")
@@ -48,6 +53,12 @@ struct ContentView: View {
         }
         .accentColor(.orange)
         .font(.headline)
+        .onAppear {
+            if #available(iOS 15.0, *) {
+                let appearance = UITabBarAppearance()
+                UITabBar.appearance().scrollEdgeAppearance = appearance
+            }
+        }
     }
 }
 
