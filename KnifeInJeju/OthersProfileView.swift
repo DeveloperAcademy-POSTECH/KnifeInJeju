@@ -1,21 +1,17 @@
 //
-//  ProfileView.swift
+//  OthersProfileView.swift
 //  KnifeInJeju
 //
-//  Created by 김예훈 on 2022/04/06.
+//  Created by seungyeon oh on 2022/04/12.
 //
 
 import SwiftUI
 
-struct ProfileView: View {
-    @State private var showEdit = false
+struct OthersProfileView: View {
+    @State private var viewAfterFollowing = false
     
     let name = "제주에칼이"
     let tag = "# 코딩 # 스타트업 "
-    let rolemodelNumber = "42"
-    let rolemodel = "롤모델"
-    let answerNumber = "29"
-    let answer = "답변수"
     let introduce = "스타트업, 코딩 질문 환영해요!\n포스트 방문하셔서 저희 서비스도 많은 관심 부탁드려요ㅎㅎ"
     
     
@@ -25,24 +21,8 @@ struct ProfileView: View {
                 .ignoresSafeArea()
             ScrollView{
                 VStack{
-                    ZStack{
-                        Button(action: {
-                            self.showEdit = true
-                        }, label: {
-                            Image("setting")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width:30, height: 30)
-                                .symbolRenderingMode(.palette)
-                                .foregroundColor(.orange)
-                        }).offset(x: 160)
-                            .sheet(isPresented: self.$showEdit){
-                                EditView()
-                            }
-                    }
-                    Image("userDefault")
+                    Image("randomProfile")
                         .resizable()
-                        .scaledToFit()
                         .frame(width: 120, height: 120)
                         .clipShape(Circle())
                     Text(name)
@@ -54,49 +34,21 @@ struct ProfileView: View {
                         .bold()
                     Spacer()
                 }
-                HStack{
-                    Button(action: {
-                        //action
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white)
-                                .frame(width: 180, height: 55)
-                            Spacer()
-                            Text(rolemodelNumber)
-                                .bold()
-                                .font(.system(size: 18))
-                                .foregroundColor(Color.orange)
-                                .frame(width: 70, height: 45, alignment: .top)
-                            Spacer()
-                            Text(rolemodel)
-                                .font(.system(size: 14))
-                                .foregroundColor(Color.orange)
-                                .frame(width: 70, height: 45, alignment: .bottom)
-                        }
-                        
-                        
-                    })
-                    Button(action: {
-                        //action
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white)
-                                .frame(width: 180, height: 55)
-                            Text(answerNumber)
-                                .bold()
-                                .font(.system(size: 18))
-                                .foregroundColor(Color.orange)
-                                .frame(width: 70, height: 45, alignment: .top)
-                            Text(answer)
-                                .font(.system(size: 14))
-                                .foregroundColor(Color.orange)
-                                .frame(width: 70, height: 45, alignment: .bottom)
-                        }
-                    })
-                }.padding(.init(top: 10, leading: 0, bottom: 0, trailing: 0))
-                
+                Button(action:{
+                    
+                }, label: {
+                    ZStack{
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color.white)
+                            .frame(width: 365, height: 45)
+                        Spacer()
+                        Text("롤모델에 추가하기")
+                            .bold()
+                            .font(.system(size: 17))
+                            .foregroundColor(Color.orange)
+                            .frame(width: 160, height: 45)
+                    }
+                })
                 VStack{
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
@@ -272,8 +224,8 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
+struct OthersProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        OthersProfileView()
     }
 }
