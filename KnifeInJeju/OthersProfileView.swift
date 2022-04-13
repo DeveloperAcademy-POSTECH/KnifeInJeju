@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OthersProfileView: View {
-    @State private var viewAfterFollowing = false
+    @State private var following = false
     
     let name = "제주에칼이"
     let tag = "# 코딩 # 스타트업 "
@@ -34,21 +34,57 @@ struct OthersProfileView: View {
                         .bold()
                     Spacer()
                 }
+                ZStack{
+                HStack{
+                    Button(action: {
+                        self.following.toggle()
+                    }, label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.white)
+                                .frame(width: 180, height: 45)
+                            Spacer()
+                            Text("롤모델에서 삭제하기")
+                                .bold()
+                                .font(.system(size: 16))
+                                .foregroundColor(Color.orange)
+                                .frame(width: 140, height: 45)
+                        }
+                        
+                        
+                    })
+                    Button(action: {
+                        //질문하기
+                    }, label: {
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.orange)
+                                .frame(width: 180, height: 45)
+                            Text("질문하기")
+                                .bold()
+                                .font(.system(size: 16))
+                                .foregroundColor(Color.white)
+                                .frame(width: 140, height: 45)
+                        }
+                    })
+                }
                 Button(action:{
-                    
-                }, label: {
+                    self.following.toggle()
+                    }, label: {
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.white)
-                            .frame(width: 365, height: 45)
+                            .frame(width: 368, height: 45)
                         Spacer()
                         Text("롤모델에 추가하기")
                             .bold()
                             .font(.system(size: 17))
                             .foregroundColor(Color.orange)
-                            .frame(width: 160, height: 45)
+                            .frame(width: 165, height: 45)
                     }
-                })
+                    }).opacity(following ? 0 : 1)
+                }
+                
                 VStack{
                     ZStack{
                         RoundedRectangle(cornerRadius: 10)
