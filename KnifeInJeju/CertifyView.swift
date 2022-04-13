@@ -61,7 +61,7 @@ struct CertifyView: View {
                         image?.resizable().frame(width: 120, height: 120).cornerRadius(10)
                     }
                     .sheet(isPresented: $showImagePicker) {
-                        AnotherImagePicker(sourceType: .photoLibrary) { image in
+                        NewImagePicker(sourceType: .photoLibrary) { image in
                             self.image = Image(uiImage: image)
                             self.imageData = image.getData()
                         }
@@ -109,7 +109,7 @@ struct CertifyView_Previews: PreviewProvider {
     }
 }
 
-struct AnotherImagePicker: UIViewControllerRepresentable {
+struct NewImagePicker: UIViewControllerRepresentable {
     
     @Environment(\.presentationMode)
     private var presentationMode
