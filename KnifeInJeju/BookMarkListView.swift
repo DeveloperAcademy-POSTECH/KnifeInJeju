@@ -11,7 +11,7 @@ class BookmarkViewModel: ObservableObject {
     @Published var bookmarkedQuestions: [Question] = []
     
     func getQuestions(loginUserVM: LoginUserViewModel) {
-        if var data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
+        if let data = Storage.retrive(Storage.databaseAllQuestionURL, from: .documents, as: [Question].self) {
             data.forEach { question in
                 if let index = loginUserVM.user.bookmarkedQuestions.firstIndex(where: {$0.id == question.id}) {
                     loginUserVM.user.bookmarkedQuestions[index] = question
