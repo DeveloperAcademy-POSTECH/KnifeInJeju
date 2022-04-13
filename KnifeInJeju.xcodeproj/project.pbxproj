@@ -22,6 +22,8 @@
 		B5D985162803D96000F698EA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D985152803D96000F698EA /* ImagePicker.swift */; };
 		B5E8D6E728054B540001BE35 /* OthersProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E8D6E628054B540001BE35 /* OthersProfileView.swift */; };
 		B5E8D6E92805F0E10001BE35 /* AfterFollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E8D6E82805F0E10001BE35 /* AfterFollowingView.swift */; };
+		B97B565A280022550031905B /* PostModifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97B5659280022550031905B /* PostModifyView.swift */; };
+		B97B566228018AB00031905B /* CertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97B566128018AB00031905B /* CertifyView.swift */; };
 		B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */; };
 		B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918E027FC326E006B79D8 /* ContentView.swift */; };
 		B9B918F027FC3270006B79D8 /* KnifeInJejuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918EF27FC3270006B79D8 /* KnifeInJejuTests.swift */; };
@@ -63,6 +65,9 @@
 		B5D985152803D96000F698EA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		B5E8D6E628054B540001BE35 /* OthersProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthersProfileView.swift; sourceTree = "<group>"; };
 		B5E8D6E82805F0E10001BE35 /* AfterFollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterFollowingView.swift; sourceTree = "<group>"; };
+		B97B5659280022550031905B /* PostModifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModifyView.swift; sourceTree = "<group>"; };
+		B97B566128018AB00031905B /* CertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertifyView.swift; sourceTree = "<group>"; };
+		B97B5665280549A20031905B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		B9B918DB27FC326E006B79D8 /* KnifeInJeju.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KnifeInJeju.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnifeInJejuApp.swift; sourceTree = "<group>"; };
 		B9B918E027FC326E006B79D8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +138,7 @@
 		B9B918DD27FC326E006B79D8 /* KnifeInJeju */ = {
 			isa = PBXGroup;
 			children = (
+				B97B5665280549A20031905B /* Info.plist */,
 				B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */,
 				B9B918E027FC326E006B79D8 /* ContentView.swift */,
 				210F1EEB27FD6858008521D2 /* HomeView.swift */,
@@ -150,6 +156,8 @@
 				213F7CA827FEC270007E4458 /* CardView.swift */,
 				212BAFB828059CDC009E83EB /* BookmarkListView.swift */,
 				213F7CA627FDE32D007E4458 /* Data.swift */,
+				B97B5659280022550031905B /* PostModifyView.swift */,
+				B97B566128018AB00031905B /* CertifyView.swift */,
 				B9B918E227FC3270006B79D8 /* Assets.xcassets */,
 				B9B918EE27FC3270006B79D8 /* KnifeInJejuTests */,
 				B9B918E427FC3270006B79D8 /* Preview Content */,
@@ -324,11 +332,13 @@
 				B5E8D6E728054B540001BE35 /* OthersProfileView.swift in Sources */,
 				B5D985162803D96000F698EA /* ImagePicker.swift in Sources */,
 				B5E8D6E92805F0E10001BE35 /* AfterFollowingView.swift in Sources */,
+				B97B566228018AB00031905B /* CertifyView.swift in Sources */,
 				B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */,
 				731F70B2280017A100A169C5 /* AskView.swift in Sources */,
 				213F7CA727FDE32D007E4458 /* Data.swift in Sources */,
 				213F7CA927FEC270007E4458 /* CardView.swift in Sources */,
 				B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */,
+				B97B565A280022550031905B /* PostModifyView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,9 +500,10 @@
 				DEVELOPMENT_TEAM = VT69ZW2DRC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KnifeInJeju/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
@@ -520,9 +531,10 @@
 				DEVELOPMENT_TEAM = VT69ZW2DRC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KnifeInJeju/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
