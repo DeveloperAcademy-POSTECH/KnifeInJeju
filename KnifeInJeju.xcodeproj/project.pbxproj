@@ -20,6 +20,8 @@
 		B9B918F027FC3270006B79D8 /* KnifeInJejuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918EF27FC3270006B79D8 /* KnifeInJejuTests.swift */; };
 		B9B918FA27FC3270006B79D8 /* KnifeInJejuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918F927FC3270006B79D8 /* KnifeInJejuUITests.swift */; };
 		B9B918FC27FC3270006B79D8 /* KnifeInJejuUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918FB27FC3270006B79D8 /* KnifeInJejuUITestsLaunchTests.swift */; };
+		CCD4013D2804127700F19743 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD4013C2804127700F19743 /* CardView.swift */; };
+		CCD4013F280413AC00F19743 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD4013E280413AC00F19743 /* Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		B9B918F527FC3270006B79D8 /* KnifeInJejuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KnifeInJejuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B918F927FC3270006B79D8 /* KnifeInJejuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnifeInJejuUITests.swift; sourceTree = "<group>"; };
 		B9B918FB27FC3270006B79D8 /* KnifeInJejuUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnifeInJejuUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CCD4013C2804127700F19743 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		CCD4013E280413AC00F19743 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,9 +115,11 @@
 				210F1EEB27FD6858008521D2 /* HomeView.swift */,
 				B9A4534E27FEFAB0008A7E58 /* RoleModelManageView.swift */,
 				B913685728032CD700B46001 /* RoleModelSelectView.swift */,
+				CCD4013C2804127700F19743 /* CardView.swift */,
 				210F1EED27FD685F008521D2 /* ProfileView.swift */,
 				210F1EEF27FD6866008521D2 /* SearchView.swift */,
 				210F1EF127FD6872008521D2 /* LogView.swift */,
+				CCD4013E280413AC00F19743 /* Data.swift */,
 				B9B918E227FC3270006B79D8 /* Assets.xcassets */,
 				B9B918E427FC3270006B79D8 /* Preview Content */,
 			);
@@ -276,6 +282,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				210F1EF027FD6866008521D2 /* SearchView.swift in Sources */,
+				CCD4013F280413AC00F19743 /* Data.swift in Sources */,
+				CCD4013D2804127700F19743 /* CardView.swift in Sources */,
 				210F1EF227FD6872008521D2 /* LogView.swift in Sources */,
 				B913685828032CD700B46001 /* RoleModelSelectView.swift in Sources */,
 				210F1EEE27FD685F008521D2 /* ProfileView.swift in Sources */,

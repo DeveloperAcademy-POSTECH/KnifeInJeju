@@ -15,8 +15,17 @@ class RoleModelManageViewModel: ObservableObject {
         roleModels = RoleModel.dummyData
     }
     
+    // [Bookmark 갯수 저장] : 질문별 bookmarkCount
+    // -> RoleModel의 bookmarkCount += 답변 완료된 bookmarkCount의 총합
+
+    func saveRoleModelList() {
+        //Storage.store(roleModels, to: .documents, as: Storage.loginUserURL)
+        // roleModels 배열을 그대로 저장?
+    }
+    
     func deleteRoleModel(at offsets: IndexSet) {
         roleModels.remove(atOffsets: offsets)
+        saveRoleModelList()
     }
     
 }

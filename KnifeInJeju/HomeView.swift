@@ -46,7 +46,6 @@ class HomeViewModel: ObservableObject {
 struct HomeView: View {
     @EnvironmentObject var loginUserVM: LoginUserViewModel
     @StateObject var vm = HomeViewModel()
-    
     @State var selection: Int? = nil
     @State var answerButtonToggle = false
     
@@ -59,14 +58,16 @@ struct HomeView: View {
                     .frame(width:300, height: 45, alignment: .leading)
                     .padding()
                 
-                HStack(spacing: 15) {
+                // Caution
+                HStack(alignment: .center, spacing:12) {
                     questionButton
+                        .padding()
                     answerButton
                     roleModelButton
-                }.padding(30)
-                Spacer(minLength: 13)
-                recentQuestions
+                }
+                .padding(30)
                 
+                recentQuestions
             }
             .onAppear{
                 loginUserVM.getLoginUser()
@@ -78,11 +79,10 @@ struct HomeView: View {
     }
     
     private var questionButton: some View {
-        NavigationLink(destination: RoleModelSelectView(), tag: 2, selection: $selection) {
+        NavigationLink(destination: RoleModelSelectView(), tag: 1, selection: $selection) {
             Button{
-                // action
                 print("질문하기")
-                self.selection = 2
+                self.selection = 1
             } label: {
                 Text("Question")
                     .opacity(0)
@@ -92,11 +92,11 @@ struct HomeView: View {
     }
     
     private var answerButton: some View {
-        NavigationLink(destination: LogView(), tag: 1, selection: $selection) {
+        NavigationLink(destination: LogView(), tag: 2, selection: $selection) {
             Button{
                 answerButtonToggle = true
                 print("답변하기")
-                self.selection = 1
+                self.selection = 2
             } label: {
                 Text("Answer")
                     .opacity(0)
@@ -124,15 +124,13 @@ struct HomeView: View {
                 .foregroundColor(Color(0xF2F2F7))
                 .padding()
             
-            VStack(spacing: 10) {
+            VStack(spacing: 15) {
                 Text("최근 질문")
                     .font(.system(size: 20, weight: .semibold))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                //.padding([.leading, .top])
-                    .padding()
+                    .padding([.leading, .top], 20)
                 list
                     .padding(.horizontal)
-                //.padding()
             }
             .padding()
         }
@@ -144,7 +142,8 @@ struct HomeView: View {
             ForEach($vm.queryQuestions) { $question in
                 CardView(question: $question, loginUserVM: loginUserVM) {
                     vm.saveQueryQuestions(string: vm.queryString, user: loginUserVM.user)
-                }            }
+                }
+            }
         }
     }
 }

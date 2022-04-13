@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var loginUserVM: LoginUserViewModel
     var body: some View {
         TabView {
             HomeView()
+                .environmentObject(LoginUserViewModel())
                 .tabItem {
                     Label {
                         Text("홈")
