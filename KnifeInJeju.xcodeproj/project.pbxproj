@@ -11,6 +11,8 @@
 		210F1EEE27FD685F008521D2 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EED27FD685F008521D2 /* ProfileView.swift */; };
 		210F1EF027FD6866008521D2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EEF27FD6866008521D2 /* SearchView.swift */; };
 		210F1EF227FD6872008521D2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210F1EF127FD6872008521D2 /* LogView.swift */; };
+		731F70B2280017A100A169C5 /* AskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731F70B1280017A100A169C5 /* AskView.swift */; };
+		73A1712F28041DC5008CAE69 /* ReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A1712E28041DC5008CAE69 /* ReplyView.swift */; };
 		212BAFB5280574D5009E83EB /* RoleModelManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212BAFB4280574D5009E83EB /* RoleModelManageView.swift */; };
 		212BAFB7280574F0009E83EB /* RoleModelSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212BAFB6280574F0009E83EB /* RoleModelSelectView.swift */; };
 		212BAFB928059CDC009E83EB /* BookmarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 212BAFB828059CDC009E83EB /* BookmarkListView.swift */; };
@@ -47,6 +49,8 @@
 		210F1EED27FD685F008521D2 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		210F1EEF27FD6866008521D2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		210F1EF127FD6872008521D2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		731F70B1280017A100A169C5 /* AskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskView.swift; sourceTree = "<group>"; };
+		73A1712E28041DC5008CAE69 /* ReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyView.swift; sourceTree = "<group>"; };
 		212BAFB4280574D5009E83EB /* RoleModelManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleModelManageView.swift; sourceTree = "<group>"; };
 		212BAFB6280574F0009E83EB /* RoleModelSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleModelSelectView.swift; sourceTree = "<group>"; };
 		212BAFB828059CDC009E83EB /* BookmarkListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkListView.swift; sourceTree = "<group>"; };
@@ -93,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				B9B918DD27FC326E006B79D8 /* KnifeInJeju */,
-				B9B918EE27FC3270006B79D8 /* KnifeInJejuTests */,
 				B9B918F827FC3270006B79D8 /* KnifeInJejuUITests */,
 				B9B918DC27FC326E006B79D8 /* Products */,
 			);
@@ -120,10 +123,13 @@
 				212BAFB4280574D5009E83EB /* RoleModelManageView.swift */,
 				212BAFB6280574F0009E83EB /* RoleModelSelectView.swift */,
 				210F1EF127FD6872008521D2 /* LogView.swift */,
+				731F70B1280017A100A169C5 /* AskView.swift */,
+				73A1712E28041DC5008CAE69 /* ReplyView.swift */,
 				213F7CA827FEC270007E4458 /* CardView.swift */,
 				212BAFB828059CDC009E83EB /* BookmarkListView.swift */,
 				213F7CA627FDE32D007E4458 /* Data.swift */,
 				B9B918E227FC3270006B79D8 /* Assets.xcassets */,
+				B9B918EE27FC3270006B79D8 /* KnifeInJejuTests */,
 				B9B918E427FC3270006B79D8 /* Preview Content */,
 			);
 			path = KnifeInJeju;
@@ -285,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				210F1EF027FD6866008521D2 /* SearchView.swift in Sources */,
+				73A1712F28041DC5008CAE69 /* ReplyView.swift in Sources */,
 				210F1EF227FD6872008521D2 /* LogView.swift in Sources */,
 				212BAFB928059CDC009E83EB /* BookmarkListView.swift in Sources */,
 				210F1EEE27FD685F008521D2 /* ProfileView.swift in Sources */,
@@ -292,6 +299,7 @@
 				212BAFB7280574F0009E83EB /* RoleModelSelectView.swift in Sources */,
 				210F1EEC27FD6858008521D2 /* HomeView.swift in Sources */,
 				B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */,
+				731F70B2280017A100A169C5 /* AskView.swift in Sources */,
 				213F7CA727FDE32D007E4458 /* Data.swift in Sources */,
 				213F7CA927FEC270007E4458 /* CardView.swift in Sources */,
 				B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */,
