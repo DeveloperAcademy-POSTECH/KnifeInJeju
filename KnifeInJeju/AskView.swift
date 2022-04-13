@@ -7,43 +7,6 @@
 
 import SwiftUI
 
-struct ImagePicker: UIViewControllerRepresentable {
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
-        
-    }
-    
-    @Environment(\.presentationMode) private var presentationMode
-    var sourceType: UIImagePickerController.SourceType = .photoLibrary
-    @Binding var selectedImage: UIImage
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
-        let imagePicker = UIImagePickerController()
-        imagePicker.allowsEditing = false
-        imagePicker.sourceType = sourceType
-        imagePicker.delegate = context.coordinator
-        return imagePicker
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        var parent: ImagePicker
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-            if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                parent.selectedImage = image
-            }
-            parent.presentationMode.wrappedValue.dismiss()
-        }
-    }
-}
-
 struct AskView: View {
 
     @State var title: String = ""
@@ -116,7 +79,7 @@ struct AskView: View {
                                     showSheet = true
                                 }
                                 .sheet(isPresented: $showSheet) {
-                                    ImagePicker(sourceType: .photoLibrary, selectedImage: self.$image)
+                                    ImagePicker(selectedImage: self.$image, sourceType: .photoLibrary)
                                 }
                             
                             Image(uiImage: self.image)
