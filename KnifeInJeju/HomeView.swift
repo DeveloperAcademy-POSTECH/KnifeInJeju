@@ -55,8 +55,8 @@ struct HomeView: View {
                 Image("qlog")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width:300, height: 45, alignment: .leading)
-                    .padding()
+                    .frame(width:300, height: 50, alignment: .leading)
+                    .padding(.top)
                 
                 // Caution
                 HStack(alignment: .center, spacing:12) {
