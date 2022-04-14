@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     @State private var showCardDetailView = false
-    
+    @State private var showReplyView = false
     @Binding var question: Question
     @ObservedObject var loginUserVM: LoginUserViewModel
     let saveQuestion: () -> Void
@@ -54,6 +54,25 @@ struct CardView: View {
         }
         .sheet(isPresented: $showCardDetailView) {
             cardDetail
+        }
+        .fullScreenCover(isPresented: $showReplyView) {
+            VStack {
+                HStack {
+                    Text("취소")
+                        .onTapGesture {
+                            showReplyView = false
+                        }
+                    Spacer()
+                    Text("완료")
+                        .onTapGesture {
+                            showReplyView = false
+                        }
+                }
+                .padding()
+                .foregroundColor(.orange)
+                ReplyView()
+            }
+            .background(Color(.systemGray6))
         }
     }
     
@@ -219,7 +238,7 @@ struct CardView: View {
     
     private var answerButton: some View {
         Button {
-            print("답변")
+            showReplyView = true
         } label: {
             Text("답변하기")
                 .foregroundColor(.white)
