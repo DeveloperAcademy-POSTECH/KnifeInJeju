@@ -104,6 +104,7 @@ struct AskView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("완료") {
                     dismiss()
+                    NavigationUtil.popToRootView()
                 }
             }
         }
