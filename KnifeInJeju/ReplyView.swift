@@ -14,15 +14,12 @@ struct ReplyView: View {
     @State var answer: String = ""
     
     var body: some View {
-        
-        NavigationView {
             
             ZStack {
                 Color(UIColor.systemGray6)
                     .ignoresSafeArea()
                 
-                VStack(alignment: .leading) {
-                    
+                VStack(alignment: .leading, spacing: 10) {
                     Group {
                         Text("답변하실 질문입니다").font(.headline)
                         
@@ -40,7 +37,7 @@ struct ReplyView: View {
                         .background(Color.white)
                         .cornerRadius(10)
                         
-                    }.offset(x: 0, y: -30)
+                    }.offset(x: 0, y: -10)
                     Spacer()
                     Group {
                         Text("답변 내용을 작성해주세요").font(.headline)
@@ -51,29 +48,32 @@ struct ReplyView: View {
                             .textFieldStyle(PlainTextFieldStyle())
                             .cornerRadius(10)
                     }.offset(x: 0, y: -100)
+                    
                     Spacer()
                     Group {
                         Text("제출 시 유의사항\n1. 해당 첨부파일은 관리자에게 전송되어 검토 과정을 거치게 됩니다.\n2. 개인 정보에 해당하는 내용은 지워서 첨부하여 주시기 바랍니다.").font(.footnote)
                     }.offset(x: 0, y: -200)
                 }
-                .padding()
-            }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack {
-                        Button("취소") {
-                            
-                        }
-                        Spacer()
-                        Text("답변하기").font(.headline).padding()
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        HStack {
+                            Spacer()
+                        Text("답변하기")
+                            .font(.headline)
+                            .padding()
                         Spacer()
                         Button("완료") {
                             
                         }
+                        }
+                        .padding()
                     }
                 }
+                .padding()
             }
-        }.accentColor(Color(UIColor.systemOrange))
+
+        .accentColor(Color(UIColor.systemOrange))
     }
 }
 

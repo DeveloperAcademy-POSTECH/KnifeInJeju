@@ -17,8 +17,9 @@ struct RoleModelSelectView: View {
     @State var selectCount = 0
     
     var body: some View {
-        headLineView
+        
         VStack {
+            headLineView
             ScrollView(showsIndicators: false) {
                 ForEach($vm.roleModels) { $rolemodel in
                     HStack {
@@ -71,7 +72,7 @@ struct RoleModelSelectView: View {
     }
     
     private var questionButton: some View {
-        Button(action: {}) {
+        NavigationLink(destination: AskView()) {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 356, height: 40)

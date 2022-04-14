@@ -22,7 +22,6 @@
 		B5D985142803495F00F698EA /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D985132803495F00F698EA /* ProfileEditView.swift */; };
 		B5D985162803D96000F698EA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D985152803D96000F698EA /* ImagePicker.swift */; };
 		B5E8D6E728054B540001BE35 /* OthersProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E8D6E628054B540001BE35 /* OthersProfileView.swift */; };
-		B5E8D6E92805F0E10001BE35 /* AfterFollowingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E8D6E82805F0E10001BE35 /* AfterFollowingView.swift */; };
 		B97B565A280022550031905B /* PostModifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97B5659280022550031905B /* PostModifyView.swift */; };
 		B97B566228018AB00031905B /* CertifyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97B566128018AB00031905B /* CertifyView.swift */; };
 		B9B918DF27FC326E006B79D8 /* KnifeInJejuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B918DE27FC326E006B79D8 /* KnifeInJejuApp.swift */; };
@@ -65,7 +64,6 @@
 		B5D985132803495F00F698EA /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		B5D985152803D96000F698EA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		B5E8D6E628054B540001BE35 /* OthersProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OthersProfileView.swift; sourceTree = "<group>"; };
-		B5E8D6E82805F0E10001BE35 /* AfterFollowingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterFollowingView.swift; sourceTree = "<group>"; };
 		B97B5659280022550031905B /* PostModifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModifyView.swift; sourceTree = "<group>"; };
 		B97B566128018AB00031905B /* CertifyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertifyView.swift; sourceTree = "<group>"; };
 		B97B5665280549A20031905B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				210F1EED27FD685F008521D2 /* ProfileView.swift */,
 				B5D985132803495F00F698EA /* ProfileEditView.swift */,
 				B5E8D6E628054B540001BE35 /* OthersProfileView.swift */,
-				B5E8D6E82805F0E10001BE35 /* AfterFollowingView.swift */,
 				210F1EEF27FD6866008521D2 /* SearchView.swift */,
 				212BAFB4280574D5009E83EB /* RoleModelManageView.swift */,
 				212BAFB6280574F0009E83EB /* RoleModelSelectView.swift */,
@@ -333,7 +330,6 @@
 				210F1EEC27FD6858008521D2 /* HomeView.swift in Sources */,
 				B5E8D6E728054B540001BE35 /* OthersProfileView.swift in Sources */,
 				B5D985162803D96000F698EA /* ImagePicker.swift in Sources */,
-				B5E8D6E92805F0E10001BE35 /* AfterFollowingView.swift in Sources */,
 				B97B566228018AB00031905B /* CertifyView.swift in Sources */,
 				B9B918E127FC326E006B79D8 /* ContentView.swift in Sources */,
 				731F70B2280017A100A169C5 /* AskView.swift in Sources */,

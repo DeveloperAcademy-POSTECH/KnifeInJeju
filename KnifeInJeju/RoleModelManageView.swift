@@ -110,13 +110,13 @@ struct RoleModelManageView: View {
                             .font(.system(size: 16.0, weight: .regular))
                         
                     }
-                    .frame(width: 280, height: 60, alignment: .leading)
-                    
+                    .frame(width: 260, height: 60, alignment: .leading)
+                    .padding(.horizontal)
                     HStack(spacing: 2) {
                         Image(systemName: "bookmark.fill")
                         Text("\(rolemodel.bookmarkCount)")
                     }
-                    .frame(width: 50, height: 30, alignment: .leading)
+                    .frame(width: 50, height: 40, alignment: .leading)
                     .foregroundColor(Color(0xFFBE0B))
                 }
             }
@@ -127,7 +127,7 @@ struct RoleModelManageView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("롤모델")
+                Text("롤모델관리")
                     .font(.headline)
             }
         }

@@ -92,7 +92,7 @@ struct HomeView: View {
     }
     
     private var answerButton: some View {
-        NavigationLink(destination: LogView(), tag: 2, selection: $selection) {
+        NavigationLink(destination: ReplyView(), tag: 2, selection: $selection) {
             Button{
                 answerButtonToggle = true
                 print("답변하기")
