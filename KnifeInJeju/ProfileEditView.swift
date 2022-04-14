@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EditView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @State var showCertifyView = false
     @State var changeProfileImage = false
     @State var openCameraRoll = false
     @State var imageSelected = UIImage()
@@ -107,7 +108,7 @@ struct EditView: View {
                                 TextEditor(text: $detail)
                                 .padding(20)}
                             Button(action: {
-                                //action
+                                showCertifyView = true
                             }, label: {
                                 ZStack{
                                     RoundedRectangle(cornerRadius: 10)
@@ -119,6 +120,7 @@ struct EditView: View {
                                         .bold()
                                 }
                             })
+
                             Text("링크")
                                 .padding(15)
                             Button(action: {
@@ -172,6 +174,9 @@ struct EditView: View {
                     }
                 }
             }
+        }
+        .sheet(isPresented: $showCertifyView) {
+            CertifyView()
         }
     }
 }

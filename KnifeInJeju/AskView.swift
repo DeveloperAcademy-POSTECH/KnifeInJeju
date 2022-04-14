@@ -73,19 +73,19 @@ struct AskView: View {
                             .frame(width: 200, height: 100, alignment: .center)
                             .background(Color.white)
                             .cornerRadius(10)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                showSheet = true
-                            }
-                            .sheet(isPresented: $showSheet) {
-                                ImagePicker(selectedImage: self.$image, sourceType: .photoLibrary)
-                            }
                         
                         Image(uiImage: self.image)
                             .resizable()
                             .scaledToFill()
                             .frame(width: 170, height: 70, alignment: .center)
                             .cornerRadius(10)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        showSheet = true
+                    }
+                    .sheet(isPresented: $showSheet) {
+                        ImagePicker(selectedImage: self.$image, sourceType: .photoLibrary)
                     }
                     
                 }
