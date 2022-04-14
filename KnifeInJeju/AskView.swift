@@ -37,11 +37,10 @@ struct AskView: View {
                 
                 Group {
                     Text("질문 내용을 작성해주세요").font(.headline)
-                    TextField("질문 내용을 입력해주세요", text: $text)
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 100, trailing: 30))
+                    TextEditor(text: $text)
                         .frame(height: 150)
+                        .padding(.horizontal, 20)
                         .background(Color.white)
-                        .textFieldStyle(PlainTextFieldStyle())
                         .cornerRadius(10)
                 }
                     

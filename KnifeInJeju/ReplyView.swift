@@ -42,11 +42,10 @@ struct ReplyView: View {
                     Spacer()
                     Group {
                         Text("답변 내용을 작성해주세요").font(.headline)
-                        TextField("답변 내용을 입력해주세요", text: $answer)
-                            .padding(EdgeInsets(top: 0, leading: 20, bottom: 100, trailing: 30))
-                            .frame(height: 140)
+                        TextEditor(text: $answer)
+                            .frame(height: 150)
+                            .padding(.horizontal, 20)
                             .background(Color.white)
-                            .textFieldStyle(PlainTextFieldStyle())
                             .cornerRadius(10)
                     }
                     .padding(.top, 5)
